@@ -1,0 +1,2674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario de Experiencias en la Escuela</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/docx@7.1.0/build/index.js"></script>
+    <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+    <style>
+        body {
+            font-family: 'Calibri', Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 25px;
+            font-size: 16px;
+        }
+        h3 {
+            font-size: 14px;
+            color: #2987a3;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .campo {
+            margin-bottom: 15px;
+        }
+        .campo label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-size: 13px;
+        }
+        .campo input[type="text"],
+        .campo input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Calibri', Arial;
+            box-sizing: border-box;
+        }
+        .checkbox-group {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .checkbox-item input[type="checkbox"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .radio-group {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .radio-item input[type="radio"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        .radio-item label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .pregunta-cell {
+            min-width: 300px;
+        }
+        .scale-header {
+            text-align: center;
+            font-weight: bold;
+        }
+        .option-cell {
+            text-align: center;
+        }
+        .importante {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #f39c12;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        .confidencial {
+            background-color: #d1ecf1;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #17a2b8;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        .instrucciones {
+            background-color: #d4edda;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #28a745;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Calibri', Arial;
+            box-sizing: border-box;
+            resize: vertical;
+            min-height: 80px;
+        }
+        .footer-info {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-size: 13px;
+        }
+        .footer-info ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .footer-info li {
+            margin-bottom: 8px;
+        }
+        .submit-section {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        button {
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #219653;
+        }
+        @media print {
+            button {
+                display: none;
+            }
+        }
+        .logo-section {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+        .error-message {
+            color: #e74c3c;
+            background-color: #fadbd8;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            display: none;
+        }
+        .success-message {
+            color: #27ae60;
+            background-color: #d5f5e3;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            display: none;
+        }
+        .pdf-note {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-size: 12px;
+            border-left: 4px solid #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <h1>CUESTIONARIO DE EXPERIENCIAS EN LA ESCUELA</h1>
+            <p>Para Estudiantes de Educación Primaria (5° y 6° Básico)</p>
+        </div>
+
+        <div class="confidencial">
+            <strong>PRESENTACIÓN</strong><br>
+            Hola, estudiante.<br><br>
+            Este cuestionario es <strong>completamente confidencial y anónimo</strong>. Su propósito es entender mejor tus experiencias en la escuela para poder <strong>ayudarte</strong> y mejorar la convivencia en nuestro colegio.<br><br>
+            No hay respuestas correctas o incorrectas. Solo queremos saber la verdad sobre lo que vives en la escuela. Tus respuestas nos ayudarán a:
+            <ul>
+                <li>Identificar situaciones de acoso o maltrato</li>
+                <li>Diseñar apoyos especiales para ti</li>
+                <li>Crear un ambiente más seguro y respetuoso</li>
+                <li>Intervenir de manera justa y protegerte</li>
+            </ul>
+            Recuerda: Esta información será manejada con el mayor cuidado por profesionales de apoyo del colegio.
+        </div>
+
+        <div class="instrucciones">
+            <strong>INSTRUCCIONES</strong><br>
+            1. <strong>Lee cada pregunta cuidadosamente</strong> - Si no entiendes algo, levanta la mano para que alguien te ayude<br>
+            2. <strong>Marca con una X</strong> la opción que mejor describe lo que te ha pasado<br>
+            3. <strong>Sé honesto</strong> - Tu sinceridad es muy importante<br>
+            4. <strong>Tómate tu tiempo</strong> - No hay prisa<br>
+            5. <strong>Privacidad garantizada</strong> - Nadie sabrá quién respondió qué
+        </div>
+
+        <h2>PRIMERA PARTE: INFORMACIÓN GENERAL</h2>
+        <div class="section">
+            <div class="campo">
+                <label>Código de estudiante (asignado por la escuela):</label>
+                <input type="text" id="codigo_estudiante" placeholder="Escriba el código asignado" />
+                <small>(Este código es solo para los profesionales. Tu nombre NO aparece aquí)</small>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="campo">
+                    <label>Curso:</label>
+                    <input type="text" id="curso" />
+                </div>
+                <div class="campo">
+                    <label>Edad:</label>
+                    <input type="number" id="edad" min="8" max="18" /> años
+                </div>
+            </div>
+            
+            <div class="campo">
+                <label>Sexo:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sexo_m" name="sexo" />
+                        <label for="sexo_m">Masculino</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sexo_f" name="sexo" />
+                        <label for="sexo_f">Femenino</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sexo_o" name="sexo" />
+                        <label for="sexo_o">Otro</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sexo_n" name="sexo" />
+                        <label for="sexo_n">Prefiero no especificar</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="campo">
+                <label>¿Hace cuánto tiempo asistes a este colegio?</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="tiempo_colegio" id="tiempo_1" value="menos_1_anio" />
+                        <label for="tiempo_1">Menos de 1 año</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="tiempo_colegio" id="tiempo_2" value="1_2_anios" />
+                        <label for="tiempo_2">Entre 1 y 2 años</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="tiempo_colegio" id="tiempo_3" value="mas_2_anios" />
+                        <label for="tiempo_3">Más de 2 años</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>SEGUNDA PARTE: DEFINICIÓN DE ACOSO</h2>
+        <div class="importante">
+            <strong>DEFINICIÓN DE ACOSO ESCOLAR (BULLYING)</strong><br>
+            Antes de responder el cuestionario, es importante entender qué es el <strong>acoso escolar (bullying)</strong>.<br><br>
+            El acoso escolar es cuando otros estudiantes:<br>
+            • Te molestan, se burlan o te insultan repetidamente<br>
+            • Te dejan fuera de grupo o no juegan contigo<br>
+            • Te golpean, empujan o lastiman físicamente<br>
+            • Te amenazan o intimidan<br>
+            • Te roban o dañan tus cosas<br>
+            • Te molestan por internet, redes sociales o mensajes<br>
+            • Hacen cosas para hacerte sentir mal<br><br>
+            Lo importante es que: Esto ocurre <strong>varias veces</strong> y es <strong>deliberado</strong> (que lo hacen a propósito).<br><br>
+            Si tienes dudas sobre algún comportamiento, pregunta sin miedo.
+        </div>
+
+        <h2>TERCERA PARTE: TU EXPERIENCIA EN LA ESCUELA</h2>
+        <p>En los últimos meses, ¿te ha pasado lo siguiente?</p>
+        <p><strong>Usa esta escala para responder:</strong></p>
+        <div class="radio-group">
+            <div class="radio-item">
+                <input type="radio" disabled />
+                <label><strong>Nunca</strong> = Esto no me ha pasado</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" disabled />
+                <label><strong>Una o dos veces</strong> = Me ha pasado pocas veces (en los últimos meses)</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" disabled />
+                <label><strong>Varias veces al mes</strong> = Me pasa ocasionalmente (2-3 veces aproximadamente al mes)</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" disabled />
+                <label><strong>Una o más veces a la semana</strong> = Me pasa frecuentemente (varias veces cada semana)</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" disabled />
+                <label><strong>Varias veces a la semana</strong> = Me pasa muy a menudo (casi diariamente)</label>
+            </div>
+        </div>
+
+        <h3>PREGUNTA GENERAL - MUY IMPORTANTE</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th class="pregunta-cell">Pregunta</th>
+                    <th class="option-cell"><span class="scale-header">Nunca</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o dos veces</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces al mes</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o más veces a la semana</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces a la semana</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1. En general, ¿con qué frecuencia has sido acosado en la escuela? (Acoso significa que alguien te ha lastimado a propósito, repetidas veces, y no puedes defenderte fácilmente)</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_1" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_1" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_1" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_1" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_1" value="4" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>SECCIÓN A: INSULTOS Y BURLAS</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th class="pregunta-cell">Pregunta</th>
+                    <th class="option-cell"><span class="scale-header">Nunca</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o dos veces</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces al mes</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o más veces a la semana</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces a la semana</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2. Me han llamado con nombres feos, me han burlado de mí o me han bromeado de forma hiriente</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_2" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_2" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_2" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_2" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_2" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>3. Me han dicho que soy poco atractivo, que soy feo o que mi cuerpo no es bonito</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_3" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_3" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_3" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_3" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_3" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>4. Me han insultado por mi raza, color de piel o donde vengo</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_4" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_4" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_4" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_4" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_4" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>5. Me han insultado por mis creencias religiosas</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_5" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_5" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_5" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_5" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_5" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>6. Me han hecho comentarios desagradables sobre mis gustos o mis características</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_6" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_6" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_6" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_6" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_6" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>7. Me han hecho bromas sobre mi forma de hablar, mi acento o porque soy de otro país</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_7" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_7" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_7" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_7" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_7" value="4" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>SECCIÓN B: EXCLUSIÓN Y RECHAZO SOCIAL</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th class="pregunta-cell">Pregunta</th>
+                    <th class="option-cell"><span class="scale-header">Nunca</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o dos veces</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces al mes</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o más veces a la semana</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces a la semana</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>8. Me han dejado fuera de sus juegos o actividades a propósito</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_8" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_8" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_8" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_8" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_8" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>9. Me han dicho que no puedo jugar con ellos</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_9" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_9" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_9" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_9" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_9" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>10. Me han ignorado completamente o no me hablan</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_10" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_10" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_10" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_10" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_10" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>11. Me han prohibido a otros que jueguen conmigo o sean mis amigos</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_11" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_11" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_11" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_11" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_11" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>12. Otros estudiantes desaparecen o se van cuando llego</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_12" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_12" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_12" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_12" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_12" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>13. Me han hablado mal con otros estudiantes para que no quieran estar conmigo</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_13" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_13" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_13" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_13" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_13" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>14. Me han excluido de chats de WhatsApp, juegos online o redes sociales</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_14" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_14" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_14" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_14" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_14" value="4" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>SECCIÓN C: AGRESIÓN FÍSICA</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th class="pregunta-cell">Pregunta</th>
+                    <th class="option-cell"><span class="scale-header">Nunca</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o dos veces</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces al mes</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o más veces a la semana</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces a la semana</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>15. Me han golpeado, pateado o empujado</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_15" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_15" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_15" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_15" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_15" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>16. Me han jalado del pelo o arañado</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_16" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_16" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_16" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_16" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_16" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>17. Me han encerrado en algún lugar</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_17" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_17" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_17" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_17" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_17" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>18. Me han aventado cosas (pelotas, piedras, cuadernos, etc.)</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_18" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_18" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_18" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_18" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_18" value="4" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>SECCIÓN D: DAÑO A PERTENENCIAS</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th class="pregunta-cell">Pregunta</th>
+                    <th class="option-cell"><span class="scale-header">Nunca</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o dos veces</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces al mes</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o más veces a la semana</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces a la semana</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>19. Me han robado dinero u otras cosas</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_19" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_19" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_19" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_19" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_19" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>20. Me han roto o dañado a propósito mis cosas (mochilas, útiles, ropa, etc.)</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_20" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_20" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_20" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_20" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_20" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>21. Me han sacado mis cosas sin permiso o las han dañado</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_21" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_21" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_21" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_21" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_21" value="4" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>SECCIÓN E: AMENAZAS E INTIMIDACIÓN</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th class="pregunta-cell">Pregunta</th>
+                    <th class="option-cell"><span class="scale-header">Nunca</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o dos veces</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces al mes</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o más veces a la semana</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces a la semana</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>22. Me han amenazado o intimidado</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_22" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_22" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_22" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_22" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_22" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>23. Me han obligado a hacer cosas que no quería hacer</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_23" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_23" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_23" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_23" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_23" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>24. Me han dicho que van a contarles a otros algo malo de mí</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_24" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_24" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_24" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_24" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_24" value="4" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>SECCIÓN F: ACOSO POR MEDIOS DIGITALES</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th class="pregunta-cell">Pregunta</th>
+                    <th class="option-cell"><span class="scale-header">Nunca</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o dos veces</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces al mes</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o más veces a la semana</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces a la semana</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>25. Me han molestado usando celulares (mensajes, fotos, videos)</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_25" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_25" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_25" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_25" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_25" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>26. Me han molestado usando internet o redes sociales (Facebook, WhatsApp, TikTok, etc.)</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_26" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_26" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_26" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_26" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_26" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>27. Me han enviado mensajes o comentarios desagradables</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_27" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_27" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_27" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_27" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_27" value="4" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>SECCIÓN G: OTROS TIPOS DE ACOSO</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th class="pregunta-cell">Pregunta</th>
+                    <th class="option-cell"><span class="scale-header">Nunca</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o dos veces</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces al mes</span></th>
+                    <th class="option-cell"><span class="scale-header">Una o más veces a la semana</span></th>
+                    <th class="option-cell"><span class="scale-header">Varias veces a la semana</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>28. Me han tocado de forma desagradable o inapropiada</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_28" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_28" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_28" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_28" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_28" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>29. Me han hecho comentarios de naturaleza sexual que me incomodan</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_29" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_29" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_29" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_29" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_29" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>30. Me han molestado, excluido o acosado por tener autismo, TDAH, dislexia u otra diferencia en cómo aprendo o me comporto</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_30" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_30" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_30" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_30" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_30" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>31. Me han molestado o excluido por venir de otro país, mi acento, o porque soy extranjero/a</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_31" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_31" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_31" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_31" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_31" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>32. Me han acosado por mi identidad de género, orientación sexual u otra característica personal</td>
+                    <td class="option-cell"><input type="radio" name="pregunta_32" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_32" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_32" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_32" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_32" value="4" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        33. Me han acosado de otra manera (especifica): 
+                        <input type="text" id="pregunta_33_especifica" style="width: 100%; margin-top: 5px;" placeholder="Especifique..." />
+                    </td>
+                    <td class="option-cell"><input type="radio" name="pregunta_33" value="0" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_33" value="1" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_33" value="2" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_33" value="3" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_33" value="4" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>CUARTA PARTE: INFORMACIÓN ADICIONAL</h2>
+        
+        <div class="campo">
+            <label>¿Cuándo comenzó el acoso? ¿Hace cuánto tiempo que comienza este acoso?</label>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" name="inicio_acoso" id="acoso_1" value="menos_1_semana" />
+                    <label for="acoso_1">Hace menos de 1 semana</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="inicio_acoso" id="acoso_2" value="1_2_semanas" />
+                    <label for="acoso_2">Hace 1-2 semanas</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="inicio_acoso" id="acoso_3" value="1_3_meses" />
+                    <label for="acoso_3">Hace 1-3 meses</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="inicio_acoso" id="acoso_4" value="3_6_meses" />
+                    <label for="acoso_4">Hace 3-6 meses</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="inicio_acoso" id="acoso_5" value="mas_6_meses" />
+                    <label for="acoso_5">Hace más de 6 meses</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="inicio_acoso" id="acoso_6" value="no_recuerdo" />
+                    <label for="acoso_6">No recuerdo muy bien cuándo empezó</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="campo">
+            <label>¿Quiénes te molestan? Marca todas las opciones que correspondan:</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="quienes_1" value="mismo_curso" />
+                    <label for="quienes_1">Estudiantes de mi mismo curso</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="quienes_2" value="cursos_mayores" />
+                    <label for="quienes_2">Estudiantes de cursos mayores</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="quienes_3" value="cursos_menores" />
+                    <label for="quienes_3">Estudiantes de cursos menores</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="quienes_4" value="otros_cursos" />
+                    <label for="quienes_4">Estudiantes de otros cursos</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="quienes_5" value="un_solo_estudiante" />
+                    <label for="quienes_5">Un solo estudiante principalmente</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="quienes_6" value="un_grupo" />
+                    <label for="quienes_6">Un grupo de estudiantes</label>
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <label>Si es un grupo, ¿cuántos aproximadamente?</label>
+                <input type="number" id="grupo_cantidad" min="2" />
+            </div>
+        </div>
+        
+        <div class="campo">
+            <label>¿Dónde ocurre el acoso? Marca todas las situaciones que apliquen:</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="donde_1" value="sala_clases" />
+                    <label for="donde_1">En la sala de clases</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="donde_2" value="patio_recreo" />
+                    <label for="donde_2">En el patio o área de recreo</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="donde_3" value="pasillos" />
+                    <label for="donde_3">En los pasillos</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="donde_4" value="banos" />
+                    <label for="donde_4">En el baño</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="donde_5" value="biblioteca" />
+                    <label for="donde_5">En la biblioteca</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="donde_6" value="comedor" />
+                    <label for="donde_6">En el comedor</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="donde_7" value="camino_casa" />
+                    <label for="donde_7">En el camino a casa o a la escuela</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="donde_8" value="fuera_escuela" />
+                    <label for="donde_8">Fuera de la escuela (parque, centro comercial, etc.)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="donde_9" value="internet_redes" />
+                    <label for="donde_9">Por internet o redes sociales</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="donde_10" value="otro_lugar" />
+                    <label for="donde_10">Otro lugar:</label>
+                    <input type="text" id="otro_lugar_especifica" style="width: 200px; margin-left: 5px;" placeholder="Especificar" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="campo">
+            <label>Durante el acoso, ¿hay adultos cerca?</label>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" name="adultos" id="adultos_1" value="si_frecuentemente" />
+                    <label for="adultos_1">Sí, frecuentemente</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="adultos" id="adultos_2" value="a_veces" />
+                    <label for="adultos_2">A veces</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="adultos" id="adultos_3" value="rara_vez" />
+                    <label for="adultos_3">Rara vez</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="adultos" id="adultos_4" value="nunca" />
+                    <label for="adultos_4">Nunca</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="campo">
+            <label>Si hay adultos, ¿hacen algo?</label>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" name="intervencion" id="intervencion_1" value="si_intervienen" />
+                    <label for="intervencion_1">Sí, intervienen y me ayudan</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="intervencion" id="intervencion_2" value="a_veces_intervienen" />
+                    <label for="intervencion_2">A veces intervienen</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="intervencion" id="intervencion_3" value="ven_no_hacen" />
+                    <label for="intervencion_3">Ven pero no hacen nada</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="intervencion" id="intervencion_4" value="no_saben" />
+                    <label for="intervencion_4">No saben qué ocurre</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="campo">
+            <label>¿Hay estudiantes que te ayuden o defiendan?</label>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" name="apoyo" id="apoyo_1" value="si_muchos" />
+                    <label for="apoyo_1">Sí, muchos</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="apoyo" id="apoyo_2" value="algunos" />
+                    <label for="apoyo_2">Algunos</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="apoyo" id="apoyo_3" value="muy_pocos" />
+                    <label for="apoyo_3">Muy pocos</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="apoyo" id="apoyo_4" value="nadie" />
+                    <label for="apoyo_4">Nadie</label>
+                </div>
+            </div>
+        </div>
+
+        <h2>QUINTA PARTE: CÓMO TE SIENTES</h2>
+        <p>Por favor, describe cómo te has sentido con estas experiencias:</p>
+        <div class="checkbox-group">
+            <div class="checkbox-item">
+                <input type="checkbox" id="sentimiento_1" value="triste_deprimido" />
+                <label for="sentimiento_1">Triste o deprimido</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="sentimiento_2" value="ansioso_asustado" />
+                <label for="sentimiento_2">Ansioso o asustado</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="sentimiento_3" value="enojado_furioso" />
+                <label for="sentimiento_3">Enojado o furioso</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="sentimiento_4" value="avergonzado_humillado" />
+                <label for="sentimiento_4">Avergonzado o humillado</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="sentimiento_5" value="solo_aislado" />
+                <label for="sentimiento_5">Solo o aislado</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="sentimiento_6" value="sin_importancia" />
+                <label for="sentimiento_6">Sin importancia o sin valor</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="sentimiento_7" value="problemas_dormir" />
+                <label for="sentimiento_7">Problemas para dormir o pesadillas</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="sentimiento_8" value="dolores" />
+                <label for="sentimiento_8">Dolores de cabeza o estómago</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="sentimiento_9" value="no_quiero_escuela" />
+                <label for="sentimiento_9">No quiero ir a la escuela</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="sentimiento_10" value="otros_sentimientos" />
+                <label for="sentimiento_10">Otros sentimientos:</label>
+                <input type="text" id="otros_sentimientos" style="width: 200px; margin-left: 5px;" placeholder="Especificar" />
+            </div>
+        </div>
+
+        <h2>SEXTA PARTE: ¿A QUIÉN HAS CONTADO?</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Persona</th>
+                    <th>Sí</th>
+                    <th>No</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Padres o apoderados</td>
+                    <td class="option-cell"><input type="radio" name="contado_padres" value="si" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_padres" value="no" /></td>
+                </tr>
+                <tr>
+                    <td>Profesores</td>
+                    <td class="option-cell"><input type="radio" name="contado_profesores" value="si" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_profesores" value="no" /></td>
+                </tr>
+                <tr>
+                    <td>Directivos (director, inspector)</td>
+                    <td class="option-cell"><input type="radio" name="contado_directivos" value="si" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_directivos" value="no" /></td>
+                </tr>
+                <tr>
+                    <td>Psicólogo o consejero escolar</td>
+                    <td class="option-cell"><input type="radio" name="contado_psicologo" value="si" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_psicologo" value="no" /></td>
+                </tr>
+                <tr>
+                    <td>Compañeros amigos</td>
+                    <td class="option-cell"><input type="radio" name="contado_amigos" value="si" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_amigos" value="no" /></td>
+                </tr>
+                <tr>
+                    <td>Otro adulto de confianza</td>
+                    <td class="option-cell"><input type="radio" name="contado_otro" value="si" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_otro" value="no" /></td>
+                </tr>
+                <tr>
+                    <td>No se lo he contado a nadie</td>
+                    <td class="option-cell"><input type="radio" name="contado_nadie" value="si" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_nadie" value="no" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="campo">
+            <label>Si ya le contaste a un adulto de la escuela, ¿qué pasó?</label>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" name="resultado_contado" id="resultado_1" value="medidas_proteccion" />
+                    <label for="resultado_1">Me escucharon y tomaron medidas para protegerme</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="resultado_contado" id="resultado_2" value="escucharon_no_hicieron" />
+                    <label for="resultado_2">Me escucharon pero no hicieron nada</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="resultado_contado" id="resultado_3" value="no_me_creyeron" />
+                    <label for="resultado_3">No me creyeron</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="resultado_contado" id="resultado_4" value="culpa_mia" />
+                    <label for="resultado_4">Me dijeron que era culpa mía ("hiciste algo para provocar")</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="resultado_contado" id="resultado_5" value="pidieron_no_contar" />
+                    <label for="resultado_5">Me pidieron que no contara a mis papás</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="resultado_contado" id="resultado_6" value="no_se_que_pasara" />
+                    <label for="resultado_6">Aún no sé qué va a pasar</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="campo">
+            <label>Si no se lo has contado a nadie, ¿por qué?</label>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" name="razon_no_contado" id="razon_1" value="miedo_represalias" />
+                    <label for="razon_1">Tengo miedo de represalias</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="razon_no_contado" id="razon_2" value="no_me_creyeron" />
+                    <label for="razon_2">Creo que no me van a creer</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="razon_no_contado" id="razon_3" value="verguenza" />
+                    <label for="razon_3">Tengo vergüenza</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="razon_no_contado" id="razon_4" value="no_se_a_quien" />
+                    <label for="razon_4">No sé a quién contarle</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="razon_no_contado" id="razon_5" value="no_me_pueden_ayudar" />
+                    <label for="razon_5">Pienso que no me pueden ayudar</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="razon_no_contado" id="razon_6" value="otra_razon" />
+                    <label for="razon_6">Otra razón:</label>
+                    <input type="text" id="otra_razon_especifica" style="width: 200px; margin-left: 5px;" placeholder="Especificar" />
+                </div>
+            </div>
+        </div>
+
+        <h2>SÉPTIMA PARTE: LO QUE NECESITAS</h2>
+        <p>Marca las formas de apoyo que crees que necesitas:</p>
+        <div class="checkbox-group">
+            <div class="checkbox-item">
+                <input type="checkbox" id="apoyo_1" value="psicologo_consejero" />
+                <label for="apoyo_1">Hablar con un psicólogo o consejero</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="apoyo_2" value="cambiar_sala" />
+                <label for="apoyo_2">Cambiar de sala de clases</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="apoyo_3" value="amigo_apoyo" />
+                <label for="apoyo_3">Tener un amigo o compañero que me apoye</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="apoyo_4" value="profesores_vigilen" />
+                <label for="apoyo_4">Que los profesores vigilen más</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="apoyo_5" value="intervengan_molestan" />
+                <label for="apoyo_5">Que se intervenga con quienes me molestan</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="apoyo_6" value="padres_sepan" />
+                <label for="apoyo_6">Que mis padres sepan lo que sucede</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="apoyo_7" value="descanso_escuela" />
+                <label for="apoyo_7">Tomar un descanso de la escuela</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="apoyo_8" value="apoyo_academico" />
+                <label for="apoyo_8">Apoyo académico (he atrasado materias)</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="apoyo_9" value="cambiar_grupo" />
+                <label for="apoyo_9">Cambiar de grupo o actividades</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="apoyo_10" value="otro_apoyo" />
+                <label for="apoyo_10">Otro tipo de ayuda:</label>
+                <input type="text" id="otro_apoyo_especifica" style="width: 200px; margin-left: 5px;" placeholder="Especificar" />
+            </div>
+        </div>
+
+        <h2>NOVENA PARTE: ESPACIO PARA CONTAR TU HISTORIA</h2>
+        <p>Si deseas, puedes escribir algo más sobre tus experiencias. Esto nos ayudará a entenderte mejor y a diseñar las estrategias de apoyo más adecuadas para ti.</p>
+        <p><strong>¿Qué más me gustaría que los adultos del colegio supieran sobre lo que me está pasando?</strong></p>
+        <textarea id="espacio_historia" placeholder="Escribe tus pensamientos aquí..."></textarea>
+
+        <div class="footer-info">
+            <strong>INFORMACIÓN IMPORTANTE AL FINAL</strong><br>
+            ¡Gracias por tu sinceridad y confianza!<br><br>
+            Tus respuestas son muy valiosas. Esto nos permite:
+            <ul>
+                <li>✓ Identificar el acoso real que estás viviendo</li>
+                <li>✓ Protegerte de forma inmediata</li>
+                <li>✓ Iniciar procesos de mediación o intervención</li>
+                <li>✓ Crear un ambiente escolar más seguro para todos</li>
+            </ul>
+            <strong>Próximos Pasos:</strong>
+            <ol>
+                <li>Este cuestionario será revisado por el Equipo de Convivencia de nuestro colegio (psicólogo, trabajador social, inspector)</li>
+                <li>Alguien te contactará en los próximos 2-3 días para conversar sobre tus experiencias de forma privada</li>
+                <li>Diseñaremos un plan de apoyo personalizado contigo</li>
+                <li>Se tomarán medidas para protegerte y sancionar el comportamiento inapropiado</li>
+                <li>Seguimiento continuo para asegurar que las medidas funcionan</li>
+            </ol>
+        </div>
+
+        <div class="importante">
+            <strong>DECLARACIÓN DE CONFIDENCIALIDAD</strong><br>
+            Este cuestionario está protegido bajo los principios de:
+            <ul>
+                <li>✓ <strong>Confidencialidad:</strong> Tu información será manejada solo por profesionales de apoyo</li>
+                <li>✓ <strong>Privacidad:</strong> No se compartirá sin tu consentimiento, excepto para protegerte</li>
+                <li>✓ <strong>Seguridad:</strong> La información se almacena de forma segura</li>
+                <li>✓ <strong>Dignidad:</strong> Tu experiencia es importante y válida</li>
+            </ul>
+        </div>
+
+        <div class="pdf-note">
+            <strong>Nota importantísima:</strong><br>
+            Al hacer clic en "Enviar Respuestas", se generarán automáticamente dos documentos:
+            <ol>
+                <li><strong>PDF con tus respuestas completas</strong> - Para tu registro personal</li>
+                <li><strong>Documento Word con Análisis Técnico</strong> - Para el equipo de profesionales</li>
+            </ol>
+            Por limitaciones de seguridad del navegador, estos documentos se <strong>descargarán en tu dispositivo</strong>. 
+            En un entorno real, se enviarían automáticamente a <strong>hluengo@mmddconcepcion.cl</strong>.
+        </div>
+        
+        <div class="error-message" id="error-message">
+            Por favor, completa los campos obligatorios antes de enviar.
+        </div>
+        
+        <div class="success-message" id="success-message">
+            ¡Gracias por completar el cuestionario! Tus documentos se están generando y descargando...
+        </div>
+
+        <div class="submit-section">
+            <button type="button" onclick="enviarRespuestas()">Enviar Respuestas</button>
+            <button type="button" onclick="limpiarFormulario()">Limpiar Formulario</button>
+        </div>
+    </div>
+
+    <script>
+        // Generar folio único
+        function generarFolio() {
+            const fecha = new Date().toISOString().replace(/[-:T]/g, '').substring(0, 14);
+            const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            return `OBVQR-${fecha}-${random}`;
+        }
+        
+        // Función principal para enviar respuestas
+        function enviarRespuestas() {
+            // Validación básica
+            const codigoEstudiante = document.getElementById('codigo_estudiante').value;
+            const curso = document.getElementById('curso').value;
+            const edad = document.getElementById('edad').value;
+            
+            if (!codigoEstudiante || !curso || !edad) {
+                document.getElementById('error-message').style.display = 'block';
+                document.getElementById('success-message').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('error-message').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            
+            const folio = generarFolio();
+            const fechaAplicacion = new Date().toLocaleString('es-CL', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Recolectar todas las respuestas
+            const respuestas = recolectarRespuestas();
+            
+            // Generar PDF con respuestas
+            generarPDFRespuestas(folio, fechaAplicacion, respuestas);
+            
+            // Generar documento Word con análisis
+            setTimeout(() => {
+                generarDocumentoAnalisis(folio, fechaAplicacion, respuestas);
+            }, 1000);
+        }
+        
+        // Recolectar todas las respuestas del formulario
+        function recolectarRespuestas() {
+            const respuestas = {};
+            
+            // Información general
+            respuestas.codigo_estudiante = document.getElementById('codigo_estudiante').value;
+            respuestas.curso = document.getElementById('curso').value;
+            respuestas.edad = document.getElementById('edad').value;
+            respuestas.sexo = getSexo();
+            respuestas.tiempo_colegio = getSelectedRadioValue('tiempo_colegio');
+            
+            // Preguntas del cuestionario (1-33)
+            for (let i = 1; i <= 33; i++) {
+                respuestas[`pregunta_${i}`] = getSelectedRadioValue(`pregunta_${i}`);
+            }
+            respuestas.pregunta_33_especifica = document.getElementById('pregunta_33_especifica').value;
+            
+            // Información adicional
+            respuestas.inicio_acoso = getSelectedRadioValue('inicio_acoso');
+            respuestas.quienes_molestan = getQuienesMolestan();
+            respuestas.grupo_cantidad = document.getElementById('grupo_cantidad').value;
+            respuestas.donde_ocurre = getDondeOcurre();
+            respuestas.otro_lugar_especifica = document.getElementById('otro_lugar_especifica').value;
+            respuestas.adultos = getSelectedRadioValue('adultos');
+            respuestas.intervencion = getSelectedRadioValue('intervencion');
+            respuestas.apoyo_comp = getSelectedRadioValue('apoyo');
+            
+            // Sentimientos
+            respuestas.sentimientos = getSentimientos();
+            respuestas.otros_sentimientos = document.getElementById('otros_sentimientos').value;
+            
+            // A quién ha contado
+            respuestas.contado_padres = getRadioValue('contado_padres');
+            respuestas.contado_profesores = getRadioValue('contado_profesores');
+            respuestas.contado_directivos = getRadioValue('contado_directivos');
+            respuestas.contado_psicologo = getRadioValue('contado_psicologo');
+            respuestas.contado_amigos = getRadioValue('contado_amigos');
+            respuestas.contado_otro = getRadioValue('contado_otro');
+            respuestas.contado_nadie = getRadioValue('contado_nadie');
+            respuestas.resultado_contado = getSelectedRadioValue('resultado_contado');
+            respuestas.razon_no_contado = getRazonNoContado();
+            respuestas.otra_razon_especifica = document.getElementById('otra_razon_especifica').value;
+            
+            // Apoyo necesario
+            respuestas.apoyo_necesita = getApoyoNecesita();
+            respuestas.otro_apoyo_especifica = document.getElementById('otro_apoyo_especifica').value;
+            
+            // Espacio historia
+            respuestas.espacio_historia = document.getElementById('espacio_historia').value;
+            
+            return respuestas;
+        }
+        
+        // Función para obtener el valor de sexo
+        function getSexo() {
+            const checkboxes = document.querySelectorAll('input[name="sexo"]:checked');
+            if (checkboxes.length === 0) return 'No especificado';
+            return Array.from(checkboxes).map(cb => {
+                if (cb.id === 'sexo_m') return 'Masculino';
+                if (cb.id === 'sexo_f') return 'Femenino';
+                if (cb.id === 'sexo_o') return 'Otro';
+                if (cb.id === 'sexo_n') return 'Prefiero no especificar';
+                return cb.id;
+            }).join(', ');
+        }
+        
+        // Función para obtener valor de radio button
+        function getSelectedRadioValue(radioGroupName) {
+            const selectedRadio = document.querySelector(`input[name="${radioGroupName}"]:checked`);
+            return selectedRadio ? selectedRadio.value : 'No respondido';
+        }
+        
+        // Función para obtener valor de radio button sí/no
+        function getRadioValue(radioGroupName) {
+            const selected = document.querySelector(`input[name="${radioGroupName}"]:checked`);
+            return selected ? selected.value : 'no_respondido';
+        }
+        
+        // Función para obtener quiénes molestan
+        function getQuienesMolestan() {
+            const checkboxes = document.querySelectorAll('input[name="quienes"]:checked');
+            if (checkboxes.length === 0) return [];
+            
+            return Array.from(checkboxes).map(cb => {
+                switch(cb.value) {
+                    case 'mismo_curso': return 'Estudiantes de mi mismo curso';
+                    case 'cursos_mayores': return 'Estudiantes de cursos mayores';
+                    case 'cursos_menores': return 'Estudiantes de cursos menores';
+                    case 'otros_cursos': return 'Estudiantes de otros cursos';
+                    case 'un_solo_estudiante': return 'Un solo estudiante principalmente';
+                    case 'un_grupo': return 'Un grupo de estudiantes';
+                    default: return cb.value;
+                }
+            });
+        }
+        
+        // Función para obtener dónde ocurre
+        function getDondeOcurre() {
+            const checkboxes = document.querySelectorAll('input[name^="donde_"]:checked');
+            if (checkboxes.length === 0) return [];
+            
+            return Array.from(checkboxes).map(cb => {
+                if (cb.id === 'donde_10' && document.getElementById('otro_lugar_especifica').value) {
+                    return `Otro lugar: ${document.getElementById('otro_lugar_especifica').value}`;
+                }
+                
+                switch(cb.value) {
+                    case 'sala_clases': return 'En la sala de clases';
+                    case 'patio_recreo': return 'En el patio o área de recreo';
+                    case 'pasillos': return 'En los pasillos';
+                    case 'banos': return 'En el baño';
+                    case 'biblioteca': return 'En la biblioteca';
+                    case 'comedor': return 'En el comedor';
+                    case 'camino_casa': return 'En el camino a casa o a la escuela';
+                    case 'fuera_escuela': return 'Fuera de la escuela (parque, centro comercial, etc.)';
+                    case 'internet_redes': return 'Por internet o redes sociales';
+                    case 'otro_lugar': return 'Otro lugar';
+                    default: return cb.value;
+                }
+            });
+        }
+        
+        // Función para obtener sentimientos
+        function getSentimientos() {
+            const checkboxes = document.querySelectorAll('input[name^="sentimiento_"]:checked');
+            if (checkboxes.length === 0) return [];
+            
+            return Array.from(checkboxes).map(cb => {
+                if (cb.id === 'sentimiento_10' && document.getElementById('otros_sentimientos').value) {
+                    return `Otros sentimientos: ${document.getElementById('otros_sentimientos').value}`;
+                }
+                
+                switch(cb.value) {
+                    case 'triste_deprimido': return 'Triste o deprimido';
+                    case 'ansioso_asustado': return 'Ansioso o asustado';
+                    case 'enojado_furioso': return 'Enojado o furioso';
+                    case 'avergonzado_humillado': return 'Avergonzado o humillado';
+                    case 'solo_aislado': return 'Solo o aislado';
+                    case 'sin_importancia': return 'Sin importancia o sin valor';
+                    case 'problemas_dormir': return 'Problemas para dormir o pesadillas';
+                    case 'dolores': return 'Dolores de cabeza o estómago';
+                    case 'no_quiero_escuela': return 'No quiero ir a la escuela';
+                    case 'otros_sentimientos': return 'Otros sentimientos';
+                    default: return cb.value;
+                }
+            });
+        }
+        
+        // Función para obtener razón no contado
+        function getRazonNoContado() {
+            const selected = document.querySelector('input[name="razon_no_contado"]:checked');
+            if (!selected) return 'No respondido';
+            
+            if (selected.value === 'otra_razon' && document.getElementById('otra_razon_especifica').value) {
+                return `Otra razón: ${document.getElementById('otra_razon_especifica').value}`;
+            }
+            
+            switch(selected.value) {
+                case 'miedo_represalias': return 'Tengo miedo de represalias';
+                case 'no_me_creyeron': return 'Creo que no me van a creer';
+                case 'verguenza': return 'Tengo vergüenza';
+                case 'no_se_a_quien': return 'No sé a quién contarle';
+                case 'no_me_pueden_ayudar': return 'Pienso que no me pueden ayudar';
+                case 'otra_razon': return 'Otra razón';
+                default: return selected.value;
+            }
+        }
+        
+        // Función para obtener apoyo necesario
+        function getApoyoNecesita() {
+            const checkboxes = document.querySelectorAll('input[name^="apoyo_"]:checked');
+            if (checkboxes.length === 0) return [];
+            
+            return Array.from(checkboxes).map(cb => {
+                if (cb.id === 'apoyo_10' && document.getElementById('otro_apoyo_especifica').value) {
+                    return `Otro tipo de ayuda: ${document.getElementById('otro_apoyo_especifica').value}`;
+                }
+                
+                switch(cb.value) {
+                    case 'psicologo_consejero': return 'Hablar con un psicólogo o consejero';
+                    case 'cambiar_sala': return 'Cambiar de sala de clases';
+                    case 'amigo_apoyo': return 'Tener un amigo o compañero que me apoye';
+                    case 'profesores_vigilen': return 'Que los profesores vigilen más';
+                    case 'intervengan_molestan': return 'Que se intervenga con quienes me molestan';
+                    case 'padres_sepan': return 'Que mis padres sepan lo que sucede';
+                    case 'descanso_escuela': return 'Tomar un descanso de la escuela';
+                    case 'apoyo_academico': return 'Apoyo académico (he atrasado materias)';
+                    case 'cambiar_grupo': return 'Cambiar de grupo o actividades';
+                    case 'otro_apoyo': return 'Otro tipo de ayuda';
+                    default: return cb.value;
+                }
+            });
+        }
+        
+        // Función para convertir valor numérico a texto de frecuencia
+        function valorAFrecuencia(valor) {
+            if (valor === null || valor === undefined || valor === 'No respondido') return 'No respondido';
+            const valores = {
+                '0': 'Nunca',
+                '1': 'Una o dos veces',
+                '2': 'Varias veces al mes',
+                '3': 'Una o más veces a la semana',
+                '4': 'Varias veces a la semana'
+            };
+            return valores[valor] || valor;
+        }
+        
+        // Función para generar PDF con respuestas
+        function generarPDFRespuestas(folio, fechaAplicacion, respuestas) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'letter');
+            
+            // Configuración del documento
+            const pageWidth = doc.internal.pageSize.width;
+            const margin = 15;
+            let y = 20;
+            
+            // Logo/institución
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(14);
+            doc.setTextColor(0, 0, 0);
+            doc.text('CUESTIONARIO OBVQ-R - RESPUESTAS COMPLETAS', pageWidth / 2, y, { align: 'center' });
+            y += 10;
+            
+            // Información de folio y fecha
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.text(`Folio: ${folio}`, margin, y);
+            doc.text(`Fecha: ${fechaAplicacion}`, pageWidth - margin, y, { align: 'right' });
+            y += 10;
+            
+            // Datos del estudiante
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('DATOS DEL ESTUDIANTE', margin, y);
+            y += 8;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(11);
+            doc.text(`Código de estudiante: ${respuestas.codigo_estudiante}`, margin, y);
+            y += 6;
+            doc.text(`Curso: ${respuestas.curso}`, margin, y);
+            y += 6;
+            doc.text(`Edad: ${respuestas.edad} años`, margin, y);
+            y += 6;
+            doc.text(`Sexo: ${respuestas.sexo}`, margin, y);
+            y += 6;
+            doc.text(`Tiempo en el colegio: ${respuestas.tiempo_colegio}`, margin, y);
+            y += 12;
+            
+            // Función para agregar sección
+            function agregarSeccion(titulo, preguntas) {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+                
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(12);
+                doc.text(titulo, margin, y);
+                y += 8;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(11);
+                
+                preguntas.forEach(pregunta => {
+                    if (y > 270) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    
+                    const textoPregunta = pregunta.texto;
+                    const respuestaValor = respuestas[pregunta.id];
+                    const respuestaTexto = valorAFrecuencia(respuestaValor);
+                    
+                    // Agregar texto de pregunta
+                    const preguntaLines = doc.splitTextToSize(textoPregunta, pageWidth - 2 * margin - 30);
+                    if (preguntaLines.length > 0) {
+                        doc.text(`${pregunta.numero}. ${preguntaLines[0]}`, margin, y);
+                        for (let i = 1; i < preguntaLines.length; i++) {
+                            y += 6;
+                            doc.text(preguntaLines[i], margin + 5, y);
+                        }
+                    }
+                    y += 6;
+                    
+                    // Agregar respuesta
+                    doc.text(`Respuesta: ${respuestaTexto}`, margin + 10, y);
+                    y += 10;
+                });
+            }
+            
+            // Sección A: Insultos y Burlas
+            agregarSeccion('SECCIÓN A: INSULTOS Y BURLAS', [
+                { numero: 2, id: 'pregunta_2', texto: 'Me han llamado con nombres feos, me han burlado de mí o me han bromeado de forma hiriente' },
+                { numero: 3, id: 'pregunta_3', texto: 'Me han dicho que soy poco atractivo, que soy feo o que mi cuerpo no es bonito' },
+                { numero: 4, id: 'pregunta_4', texto: 'Me han insultado por mi raza, color de piel o donde vengo' },
+                { numero: 5, id: 'pregunta_5', texto: 'Me han insultado por mis creencias religiosas' },
+                { numero: 6, id: 'pregunta_6', texto: 'Me han hecho comentarios desagradables sobre mis gustos o mis características' },
+                { numero: 7, id: 'pregunta_7', texto: 'Me han hecho bromas sobre mi forma de hablar, mi acento o porque soy de otro país' }
+            ]);
+            
+            // Sección B: Exclusión y Rechazo Social
+            agregarSeccion('SECCIÓN B: EXCLUSIÓN Y RECHAZO SOCIAL', [
+                { numero: 8, id: 'pregunta_8', texto: 'Me han dejado fuera de sus juegos o actividades a propósito' },
+                { numero: 9, id: 'pregunta_9', texto: 'Me han dicho que no puedo jugar con ellos' },
+                { numero: 10, id: 'pregunta_10', texto: 'Me han ignorado completamente o no me hablan' },
+                { numero: 11, id: 'pregunta_11', texto: 'Me han prohibido a otros que jueguen conmigo o sean mis amigos' },
+                { numero: 12, id: 'pregunta_12', texto: 'Otros estudiantes desaparecen o se van cuando llego' },
+                { numero: 13, id: 'pregunta_13', texto: 'Me han hablado mal con otros estudiantes para que no quieran estar conmigo' },
+                { numero: 14, id: 'pregunta_14', texto: 'Me han excluido de chats de WhatsApp, juegos online o redes sociales' }
+            ]);
+            
+            // Sección C: Agresión Física
+            agregarSeccion('SECCIÓN C: AGRESIÓN FÍSICA', [
+                { numero: 15, id: 'pregunta_15', texto: 'Me han golpeado, pateado o empujado' },
+                { numero: 16, id: 'pregunta_16', texto: 'Me han jalado del pelo o arañado' },
+                { numero: 17, id: 'pregunta_17', texto: 'Me han encerrado en algún lugar' },
+                { numero: 18, id: 'pregunta_18', texto: 'Me han aventado cosas (pelotas, piedras, cuadernos, etc.)' }
+            ]);
+            
+            // Sección D: Daño a Pertenencias
+            agregarSeccion('SECCIÓN D: DAÑO A PERTENENCIAS', [
+                { numero: 19, id: 'pregunta_19', texto: 'Me han robado dinero u otras cosas' },
+                { numero: 20, id: 'pregunta_20', texto: 'Me han roto o dañado a propósito mis cosas (mochilas, útiles, ropa, etc.)' },
+                { numero: 21, id: 'pregunta_21', texto: 'Me han sacado mis cosas sin permiso o las han dañado' }
+            ]);
+            
+            // Sección E: Amenazas e Intimidación
+            agregarSeccion('SECCIÓN E: AMENAZAS E INTIMIDACIÓN', [
+                { numero: 22, id: 'pregunta_22', texto: 'Me han amenazado o intimidado' },
+                { numero: 23, id: 'pregunta_23', texto: 'Me han obligado a hacer cosas que no quería hacer' },
+                { numero: 24, id: 'pregunta_24', texto: 'Me han dicho que van a contarles a otros algo malo de mí' }
+            ]);
+            
+            // Sección F: Acoso por Medios Digitales
+            agregarSeccion('SECCIÓN F: ACOSO MEDIANTE TECNOLOGÍA', [
+                { numero: 25, id: 'pregunta_25', texto: 'Me han molestado usando celulares (mensajes, fotos, videos)' },
+                { numero: 26, id: 'pregunta_26', texto: 'Me han molestado usando internet o redes sociales (Facebook, WhatsApp, TikTok, etc.)' },
+                { numero: 27, id: 'pregunta_27', texto: 'Me han enviado mensajes o comentarios desagradables' }
+            ]);
+            
+            // Sección G: Otros Tipos de Acoso
+            agregarSeccion('SECCIÓN G: OTROS TIPOS DE ACOSO', [
+                { numero: 28, id: 'pregunta_28', texto: 'Me han tocado de forma desagradable o inapropiada' },
+                { numero: 29, id: 'pregunta_29', texto: 'Me han hecho comentarios de naturaleza sexual que me incomodan' },
+                { numero: 30, id: 'pregunta_30', texto: 'Me han molestado, excluido o acosado por tener autismo, TDAH, dislexia u otra diferencia en cómo aprendo o me comporto' },
+                { numero: 31, id: 'pregunta_31', texto: 'Me han molestado o excluido por venir de otro país, mi acento, o porque soy extranjero/a' },
+                { numero: 32, id: 'pregunta_32', texto: 'Me han acosado por mi identidad de género, orientación sexual u otra característica personal' },
+                { numero: 33, id: 'pregunta_33', texto: 'Me han acosado de otra manera' }
+            ]);
+            
+            // Pregunta 33 especificación
+            if (respuestas.pregunta_33_especifica) {
+                y += 5;
+                doc.text(`Especificación: ${respuestas.pregunta_33_especifica}`, margin + 10, y);
+                y += 10;
+            }
+            
+            // Pregunta general
+            if (y > 270) {
+                doc.addPage();
+                y = 20;
+            }
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('PREGUNTA GENERAL DE VICTIMIZACIÓN', margin, y);
+            y += 8;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(11);
+            doc.text('1. En general, ¿con qué frecuencia has sido acosado en la escuela?', margin, y);
+            y += 6;
+            doc.text(`Respuesta: ${valorAFrecuencia(respuestas.pregunta_1)}`, margin + 10, y);
+            y += 15;
+            
+            // Información adicional
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('INFORMACIÓN ADICIONAL', margin, y);
+            y += 8;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(11);
+            
+            const infoAdicional = [
+                { label: '¿Cuándo comenzó el acoso?', value: respuestas.inicio_acoso },
+                { label: '¿Quiénes te molestan?', value: respuestas.quienes_molestan.join(', ') },
+                { label: 'Cantidad en grupo', value: respuestas.grupo_cantidad ? `${respuestas.grupo_cantidad} estudiantes` : 'No especificado' },
+                { label: '¿Dónde ocurre?', value: respuestas.donde_ocurre.join(', ') },
+                { label: 'Adultos cerca', value: respuestas.adultos },
+                { label: 'Adultos intervienen', value: respuestas.intervencion },
+                { label: 'Apoyo de compañeros', value: respuestas.apoyo_comp }
+            ];
+            
+            infoAdicional.forEach(item => {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+                if (item.value && item.value !== 'No respondido' && item.value !== 'no_respondido') {
+                    doc.text(`${item.label}: ${item.value}`, margin, y);
+                    y += 6;
+                }
+            });
+            
+            y += 10;
+            
+            // Sentimientos
+            if (respuestas.sentimientos.length > 0) {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(12);
+                doc.text('SENTIMIENTOS REPORTADOS', margin, y);
+                y += 8;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(11);
+                respuestas.sentimientos.forEach(sentimiento => {
+                    doc.text(`• ${sentimiento}`, margin, y);
+                    y += 6;
+                });
+                y += 10;
+            }
+            
+            // A quién ha contado
+            if (y > 270) {
+                doc.addPage();
+                y = 20;
+            }
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(12);
+            doc.text('¿A QUIÉN HA CONTADO?', margin, y);
+            y += 8;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(11);
+            
+            const contado = [
+                { label: 'Padres o apoderados', value: respuestas.contado_padres },
+                { label: 'Profesores', value: respuestas.contado_profesores },
+                { label: 'Directivos', value: respuestas.contado_directivos },
+                { label: 'Psicólogo o consejero', value: respuestas.contado_psicologo },
+                { label: 'Compañeros amigos', value: respuestas.contado_amigos },
+                { label: 'Otro adulto de confianza', value: respuestas.contado_otro },
+                { label: 'No se lo ha contado a nadie', value: respuestas.contado_nadie }
+            ];
+            
+            contado.forEach(item => {
+                if (item.value && item.value !== 'no_respondido') {
+                    const texto = item.value === 'si' ? 'Sí' : 'No';
+                    doc.text(`${item.label}: ${texto}`, margin, y);
+                    y += 6;
+                }
+            });
+            
+            if (respuestas.resultado_contado && respuestas.resultado_contado !== 'No respondido') {
+                doc.text(`Resultado de contar a adulto: ${respuestas.resultado_contado}`, margin, y);
+                y += 6;
+            }
+            
+            if (respuestas.razon_no_contado && respuestas.razon_no_contado !== 'No respondido') {
+                doc.text(`Razón para no contar: ${respuestas.razon_no_contado}`, margin, y);
+                y += 6;
+            }
+            
+            y += 10;
+            
+            // Apoyo necesario
+            if (respuestas.apoyo_necesita.length > 0) {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(12);
+                doc.text('APOYO NECESARIO', margin, y);
+                y += 8;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(11);
+                respuestas.apoyo_necesita.forEach(apoyo => {
+                    doc.text(`• ${apoyo}`, margin, y);
+                    y += 6;
+                });
+                y += 10;
+            }
+            
+            // Espacio historia
+            if (respuestas.espacio_historia) {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(12);
+                doc.text('ESPACIO PARA CONTAR TU HISTORIA', margin, y);
+                y += 8;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(11);
+                const historiaLines = doc.splitTextToSize(respuestas.espacio_historia, pageWidth - 2 * margin);
+                historiaLines.forEach(line => {
+                    if (y > 270) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    doc.text(line, margin, y);
+                    y += 6;
+                });
+            }
+            
+            // Pie de página
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(8);
+                doc.setTextColor(128);
+                doc.text(`Folio: ${folio} - CONFIDENCIAL`, pageWidth / 2, 290, { align: 'center' });
+            }
+            
+            // Guardar PDF
+            doc.save(`OBVQ-R_Respuestas_${folio}_${new Date().toISOString().split('T')[0]}.pdf`);
+        }
+        
+        // Función para generar documento Word con análisis
+        function generarDocumentoAnalisis(folio, fechaAplicacion, respuestas) {
+            const { Document, Paragraph, TextRun, HeadingLevel, Table, TableRow, TableCell, WidthType, AlignmentType, BorderStyle, VerticalAlign, ShadingType } = docx;
+            
+            // Calcular promedios por dimensión
+            const promedios = calcularPromediosDimensiones(respuestas);
+            
+            // Verificar criterios Olweus
+            const criterios = verificarCriteriosOlweus(respuestas, promedios);
+            
+            // Determinar nivel de riesgo
+            let nivelRiesgo;
+            if (criterios.riesgoCritico) {
+                nivelRiesgo = "CRÍTICO";
+            } else if (criterios.esVictima && promedios.maxPromedio >= 3) {
+                nivelRiesgo = "ALTO";
+            } else if (criterios.esVictima) {
+                nivelRiesgo = "MEDIO";
+            } else if (promedios.maxPromedio >= 1) {
+                nivelRiesgo = "BAJO";
+            } else {
+                nivelRiesgo = "SIN RIESGO";
+            }
+            
+            // Caracterizar victimización
+            const caracterizacion = caracterizarVictimizacion(respuestas, promedios);
+            
+            // Crear contenido del documento
+            const children = [];
+            
+            // Encabezado
+            children.push(
+                new Paragraph({
+                    text: "INFORME DE ANÁLISIS OBVQ-R",
+                    heading: HeadingLevel.HEADING_1,
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 200 }
+                })
+            );
+            children.push(
+                new Paragraph({
+                    text: "Cuestionario de Victimización Escolar",
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 200 }
+                })
+            );
+            children.push(
+                new Paragraph({
+                    text: "_________________________________",
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 200 }
+                })
+            );
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: "Folio: ", bold: true }),
+                        new TextRun(folio)
+                    ],
+                    spacing: { after: 100 }
+                })
+            );
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: "Fecha de aplicación: ", bold: true }),
+                        new TextRun(fechaAplicacion)
+                    ],
+                    spacing: { after: 100 }
+                })
+            );
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: "Curso: ", bold: true }),
+                        new TextRun(respuestas.curso)
+                    ],
+                    spacing: { after: 100 }
+                })
+            );
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: "Edad: ", bold: true }),
+                        new TextRun(`${respuestas.edad} años`)
+                    ],
+                    spacing: { after: 200 }
+                })
+            );
+            children.push(
+                new Paragraph({
+                    text: "_________________________________",
+                    spacing: { after: 300 }
+                })
+            );
+            
+            // SECCIÓN 1: ANÁLISIS TÉCNICO
+            children.push(
+                new Paragraph({
+                    text: "SECCIÓN 1: ANÁLISIS TÉCNICO",
+                    heading: HeadingLevel.HEADING_1,
+                    spacing: { after: 200 }
+                })
+            );
+            
+            // 1.1 Tabla de Resultados por Dimensión
+            children.push(
+                new Paragraph({
+                    text: "1.1 Tabla de Resultados por Dimensión",
+                    heading: HeadingLevel.HEADING_2,
+                    spacing: { after: 150 }
+                })
+            );
+            
+            const tableRows = [
+                new TableRow({
+                    children: [
+                        new TableCell({ children: [new Paragraph({ text: "Dimensión", bold: true })] }),
+                        new TableCell({ children: [new Paragraph({ text: "Promedio", bold: true })] }),
+                        new TableCell({ children: [new Paragraph({ text: "N° Ítems", bold: true })] }),
+                        new TableCell({ children: [new Paragraph({ text: "Rango", bold: true })] })
+                    ]
+                }),
+                new TableRow({
+                    children: [
+                        new TableCell({ children: [new Paragraph("Insultos y burlas")] }),
+                        new TableCell({ children: [new Paragraph(promedios.insultos.toFixed(2))] }),
+                        new TableCell({ children: [new Paragraph("6")] }),
+                        new TableCell({ children: [new Paragraph("0-4")] })
+                    ]
+                }),
+                new TableRow({
+                    children: [
+                        new TableCell({ children: [new Paragraph("Exclusión social")] }),
+                        new TableCell({ children: [new Paragraph(promedios.exclusion.toFixed(2))] }),
+                        new TableCell({ children: [new Paragraph("7")] }),
+                        new TableCell({ children: [new Paragraph("0-4")] })
+                    ]
+                }),
+                new TableRow({
+                    children: [
+                        new TableCell({ children: [new Paragraph("Agresión física")] }),
+                        new TableCell({ children: [new Paragraph(promedios.agresion.toFixed(2))] }),
+                        new TableCell({ children: [new Paragraph("4")] }),
+                        new TableCell({ children: [new Paragraph("0-4")] })
+                    ]
+                }),
+                new TableRow({
+                    children: [
+                        new TableCell({ children: [new Paragraph("Daño a pertenencias")] }),
+                        new TableCell({ children: [new Paragraph(promedios.dano.toFixed(2))] }),
+                        new TableCell({ children: [new Paragraph("3")] }),
+                        new TableCell({ children: [new Paragraph("0-4")] })
+                    ]
+                }),
+                new TableRow({
+                    children: [
+                        new TableCell({ children: [new Paragraph("Amenazas e intimidación")] }),
+                        new TableCell({ children: [new Paragraph(promedios.amenazas.toFixed(2))] }),
+                        new TableCell({ children: [new Paragraph("3")] }),
+                        new TableCell({ children: [new Paragraph("0-4")] })
+                    ]
+                }),
+                new TableRow({
+                    children: [
+                        new TableCell({ children: [new Paragraph("Acoso mediante tecnología")] }),
+                        new TableCell({ children: [new Paragraph(promedios.tecnologia.toFixed(2))] }),
+                        new TableCell({ children: [new Paragraph("3")] }),
+                        new TableCell({ children: [new Paragraph("0-4")] })
+                    ]
+                })
+            ];
+            
+            children.push(
+                new Table({
+                    rows: tableRows,
+                    width: { size: 100, type: WidthType.PERCENTAGE },
+                    margins: { top: 100, bottom: 100 }
+                })
+            );
+            
+            // 1.2 Ítems con Mayor Frecuencia
+            children.push(
+                new Paragraph({
+                    text: "1.2 Ítems con Mayor Frecuencia",
+                    heading: HeadingLevel.HEADING_2,
+                    spacing: { after: 150 }
+                })
+            );
+            
+            const itemsAltaFrecuencia = obtenerItemsAltaFrecuencia(respuestas);
+            itemsAltaFrecuencia.forEach(item => {
+                children.push(
+                    new Paragraph({
+                        text: item,
+                        spacing: { after: 100 }
+                    })
+                );
+            });
+            
+            // 1.3 Aplicación de Criterios Olweus
+            children.push(
+                new Paragraph({
+                    text: "1.3 Aplicación de Criterios Olweus",
+                    heading: HeadingLevel.HEADING_2,
+                    spacing: { after: 150 }
+                })
+            );
+            
+            const criteriosItems = [
+                `Criterio 1: Pregunta general de victimización\n- Respuesta obtenida: ${valorAFrecuencia(respuestas.pregunta_1)}\n- Cumple: ${criterios.criterio1 ? "✓ SÍ" : "✗ NO"}`,
+                `Criterio 2: Tres dimensiones con promedio ≥ 2\n- Dimensiones identificadas: ${criterios.dimensionesCriticas.length > 0 ? criterios.dimensionesCriticas.join(', ') : 'Ninguna'}\n- Cumple: ${criterios.criterio2 ? "✓ SÍ" : "✗ NO"}`,
+                `Criterio 3: Una dimensión con promedio ≥ 3\n- Dimensión identificada: ${criterios.dimensionCritica ? criterios.dimensionCritica : 'Ninguna'}\n- Cumple: ${criterios.criterio3 ? "✓ SÍ" : "✗ NO"}`,
+                `Criterio 4: Algún ítem con respuesta = 4\n- Ítem(s) identificado(s): ${criterios.itemsCriticos.length > 0 ? criterios.itemsCriticos.join(', ') : 'Ninguno'}\n- Cumple: ${criterios.criterio4 ? "✓ SÍ" : "✗ NO"}`,
+                `Criterio 5: Indicadores de riesgo crítico\n- Ideación suicida: ✗ NO\n- Autolesiones: ✗ NO\n- Cumple: ✗ NO`
+            ];
+            
+            criteriosItems.forEach(item => {
+                children.push(
+                    new Paragraph({
+                        text: item,
+                        spacing: { after: 150 }
+                    })
+                );
+            });
+            
+            // RESULTADO TÉCNICO
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: "RESULTADO TÉCNICO:\n", bold: true }),
+                        new TextRun({ text: "- Clasificación: ", bold: true }),
+                        new TextRun(`${criterios.esVictima ? "VÍCTIMA" : "NO VÍCTIMA"}\n`),
+                        new TextRun({ text: "- Criterios cumplidos: ", bold: true }),
+                        new TextRun(`${criterios.criteriosCumplidos}/5`)
+                    ],
+                    spacing: { after: 300 }
+                })
+            );
+            
+            // SECCIÓN 2: ANÁLISIS VALORATIVO
+            children.push(
+                new Paragraph({
+                    text: "SECCIÓN 2: ANÁLISIS VALORATIVO",
+                    heading: HeadingLevel.HEADING_1,
+                    spacing: { after: 200 }
+                })
+            );
+            
+            // 2.1 Nivel de Riesgo Global
+            children.push(
+                new Paragraph({
+                    text: "2.1 Nivel de Riesgo Global",
+                    heading: HeadingLevel.HEADING_2,
+                    spacing: { after: 150 }
+                })
+            );
+            
+            const nivelesRiesgo = {
+                "CRÍTICO": "RIESGO CRÍTICO (requiere intervención inmediata)",
+                "ALTO": "RIESGO ALTO (requiere intervención urgente)",
+                "MEDIO": "RIESGO MEDIO (requiere seguimiento cercano)",
+                "BAJO": "RIESGO BAJO (requiere monitoreo)",
+                "SIN RIESGO": "SIN RIESGO IDENTIFICADO"
+            };
+            
+            children.push(
+                new Paragraph({
+                    text: nivelesRiesgo[nivelRiesgo],
+                    spacing: { after: 150 }
+                })
+            );
+            
+            // Fundamentación
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: "Fundamentación: ", bold: true }),
+                        new TextRun(generarFundamentacion(nivelRiesgo, criterios, promedios))
+                    ],
+                    spacing: { after: 200 }
+                })
+            );
+            
+            // 2.2 Caracterización de la Victimización
+            children.push(
+                new Paragraph({
+                    text: "2.2 Caracterización de la Victimización",
+                    heading: HeadingLevel.HEADING_2,
+                    spacing: { after: 150 }
+                })
+            );
+            
+            const caracterizacionItems = [
+                `Tipo predominante: ${caracterizacion.tipoPredominante}`,
+                `Frecuencia: ${caracterizacion.frecuencia}`,
+                `Duración reportada: ${respuestas.inicio_acoso}`,
+                `Contexto espacial (dónde ocurre): ${respuestas.donde_ocurre.join(', ')}`,
+                `Perpetradores identificados: ${respuestas.quienes_molestan.join(', ')}`
+            ];
+            
+            caracterizacionItems.forEach(item => {
+                children.push(
+                    new Paragraph({
+                        text: item,
+                        spacing: { after: 100 }
+                    })
+                );
+            });
+            
+            // 2.3 Impacto Emocional y Conductual
+            children.push(
+                new Paragraph({
+                    text: "2.3 Impacto Emocional y Conductual",
+                    heading: HeadingLevel.HEADING_2,
+                    spacing: { after: 150 }
+                })
+            );
+            
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: "Manifestaciones emocionales reportadas:\n", bold: true }),
+                        new TextRun(respuestas.sentimientos.length > 0 ? respuestas.sentimientos.join(', ') : 'No reportadas')
+                    ],
+                    spacing: { after: 150 }
+                })
+            );
+            
+            const comunicacion = [];
+            if (respuestas.contado_padres === 'si') comunicacion.push('Padres');
+            if (respuestas.contado_profesores === 'si') comunicacion.push('Profesores');
+            if (respuestas.contado_directivos === 'si') comunicacion.push('Directivos');
+            if (respuestas.contado_psicologo === 'si') comunicacion.push('Psicólogo');
+            if (respuestas.contado_amigos === 'si') comunicacion.push('Amigos');
+            if (respuestas.contado_otro === 'si') comunicacion.push('Otro adulto');
+            if (respuestas.contado_nadie === 'si') comunicacion.push('Nadie');
+            
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: "Comunicación del problema:\n", bold: true }),
+                        new TextRun(`Ha comunicado a: ${comunicacion.length > 0 ? comunicacion.join(', ') : 'No especificado'}\n`),
+                        new TextRun(`Respuesta recibida: ${respuestas.resultado_contado}`)
+                    ],
+                    spacing: { after: 200 }
+                })
+            );
+            
+            // 2.4 Factores Protectores
+            children.push(
+                new Paragraph({
+                    text: "2.4 Factores Protectores",
+                    heading: HeadingLevel.HEADING_2,
+                    spacing: { after: 150 }
+                })
+            );
+            
+            const factoresProtectores = [
+                `Apoyo de compañeros: ${respuestas.apoyo_comp}`,
+                `Presencia de adultos: ${respuestas.adultos} - Intervención: ${respuestas.intervencion}`,
+                `Red de apoyo familiar: ${comunicacion.includes('Padres') ? 'Presente' : 'No reportada'}`
+            ];
+            
+            factoresProtectores.forEach(item => {
+                children.push(
+                    new Paragraph({
+                        text: item,
+                        spacing: { after: 100 }
+                    })
+                );
+            });
+            
+            // SECCIÓN 3: RECOMENDACIONES DE INTERVENCIÓN
+            children.push(
+                new Paragraph({
+                    text: "SECCIÓN 3: RECOMENDACIONES DE INTERVENCIÓN",
+                    heading: HeadingLevel.HEADING_1,
+                    spacing: { after: 200 }
+                })
+            );
+            
+            // 3.1 Acciones Inmediatas
+            children.push(
+                new Paragraph({
+                    text: "3.1 Acciones Inmediatas",
+                    heading: HeadingLevel.HEADING_2,
+                    spacing: { after: 150 }
+                })
+            );
+            
+            const accionesInmediatas = [];
+            if (nivelRiesgo === "CRÍTICO" || nivelRiesgo === "ALTO") {
+                accionesInmediatas.push(
+                    "• Notificación inmediata a Encargado de Convivencia Escolar",
+                    "• Contacto urgente con familia/apoderados",
+                    "• Evaluación por profesional de salud mental",
+                    "• Activación de protocolo de acoso escolar"
+                );
+            } else {
+                accionesInmediatas.push("• No se requieren acciones inmediatas según nivel de riesgo evaluado");
+            }
+            
+            accionesInmediatas.forEach(accion => {
+                children.push(
+                    new Paragraph({
+                        text: accion,
+                        spacing: { after: 100 }
+                    })
+                );
+            });
+            
+            // 3.2 Intervenciones Recomendadas Según Nivel
+            children.push(
+                new Paragraph({
+                    text: "3.2 Intervenciones Recomendadas Según Nivel",
+                    heading: HeadingLevel.HEADING_2,
+                    spacing: { after: 150 }
+                })
+            );
+            
+            const intervenciones = generarIntervenciones(nivelRiesgo, caracterizacion);
+            Object.keys(intervenciones).forEach(categoria => {
+                children.push(
+                    new Paragraph({
+                        children: [
+                            new TextRun({ text: `${categoria}:\n`, bold: true }),
+                            new TextRun(intervenciones[categoria].join('\n'))
+                        ],
+                        spacing: { after: 150 }
+                    })
+                );
+            });
+            
+            // 3.3 Plan de Seguimiento
+            children.push(
+                new Paragraph({
+                    text: "3.3 Plan de Seguimiento",
+                    heading: HeadingLevel.HEADING_2,
+                    spacing: { after: 150 }
+                })
+            );
+            
+            const plazo = nivelRiesgo === "CRÍTICO" ? "1 semana" : 
+                         nivelRiesgo === "ALTO" ? "1 semana" : 
+                         nivelRiesgo === "MEDIO" ? "2 semanas" : "1 mes";
+            
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: "Plazo de re-evaluación: ", bold: true }),
+                        new TextRun(plazo)
+                    ],
+                    spacing: { after: 100 }
+                })
+            );
+            
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: "Responsables:\n", bold: true }),
+                        new TextRun("• Encargado de Convivencia Escolar\n"),
+                        new TextRun("• Psicólogo/a escolar\n"),
+                        new TextRun("• Profesor/a jefe")
+                    ],
+                    spacing: { after: 100 }
+                })
+            );
+            
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: "Indicadores de éxito:\n", bold: true }),
+                        new TextRun("• Disminución de frecuencia de victimización\n"),
+                        new TextRun("• Mejora en indicadores emocionales\n"),
+                        new TextRun("• Fortalecimiento de red de apoyo\n"),
+                        new TextRun("• Reportes positivos del estudiante")
+                    ],
+                    spacing: { after: 200 }
+                })
+            );
+            
+            // SECCIÓN 4: OBSERVACIONES Y NOTAS PROFESIONALES
+            children.push(
+                new Paragraph({
+                    text: "SECCIÓN 4: OBSERVACIONES Y NOTAS PROFESIONALES",
+                    heading: HeadingLevel.HEADING_1,
+                    spacing: { after: 150 }
+                })
+            );
+            
+            children.push(
+                new Paragraph({
+                    text: "[Espacio para que el profesional agregue comentarios adicionales, contexto relevante o consideraciones especiales del caso]",
+                    italics: true,
+                    spacing: { after: 300 }
+                })
+            );
+            
+            // PIE DE PÁGINA
+            children.push(
+                new Paragraph({
+                    text: "_________________________________",
+                    spacing: { after: 100 }
+                })
+            );
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun("Este informe es confidencial y de uso exclusivo para el equipo de convivencia escolar.\n"),
+                        new TextRun(`Fecha de elaboración: ${new Date().toLocaleDateString('es-CL')}\n`),
+                        new TextRun("Generado automáticamente por Sistema OBVQ-R")
+                    ],
+                    spacing: { before: 200 }
+                })
+            );
+            
+            // Crear documento
+            const doc = new Document({
+                sections: [{
+                    properties: {},
+                    children: children
+                }]
+            });
+            
+            // Guardar documento
+            docx.Packer.toBlob(doc).then(blob => {
+                saveAs(blob, `OBVQ-R_Informe_Análisis_${folio}_${new Date().toISOString().split('T')[0]}.docx`);
+            });
+        }
+        
+        // Funciones auxiliares para el análisis
+        function calcularPromediosDimensiones(respuestas) {
+            const insultos = ['pregunta_2', 'pregunta_3', 'pregunta_4', 'pregunta_5', 'pregunta_6', 'pregunta_7'];
+            const exclusion = ['pregunta_8', 'pregunta_9', 'pregunta_10', 'pregunta_11', 'pregunta_12', 'pregunta_13', 'pregunta_14'];
+            const agresion = ['pregunta_15', 'pregunta_16', 'pregunta_17', 'pregunta_18'];
+            const dano = ['pregunta_19', 'pregunta_20', 'pregunta_21'];
+            const amenazas = ['pregunta_22', 'pregunta_23', 'pregunta_24'];
+            const tecnologia = ['pregunta_25', 'pregunta_26', 'pregunta_27'];
+            
+            function calcularPromedio(items) {
+                const valores = items.map(id => {
+                    const val = respuestas[id];
+                    return val !== 'No respondido' && val !== undefined ? parseInt(val) : null;
+                }).filter(val => val !== null);
+                
+                return valores.length > 0 ? valores.reduce((a, b) => a + b, 0) / valores.length : 0;
+            }
+            
+            const promedios = {
+                insultos: calcularPromedio(insultos),
+                exclusion: calcularPromedio(exclusion),
+                agresion: calcularPromedio(agresion),
+                dano: calcularPromedio(dano),
+                amenazas: calcularPromedio(amenazas),
+                tecnologia: calcularPromedio(tecnologia)
+            };
+            
+            promedios.maxPromedio = Math.max(...Object.values(promedios));
+            return promedios;
+        }
+        
+        function verificarCriteriosOlweus(respuestas, promedios) {
+            const criterios = {
+                criterio1: false,
+                criterio2: false,
+                criterio3: false,
+                criterio4: false,
+                criterio5: false,
+                esVictima: false,
+                criteriosCumplidos: 0,
+                dimensionesCriticas: [],
+                dimensionCritica: null,
+                itemsCriticos: []
+            };
+            
+            // Criterio 1: Pregunta general ≠ "Nunca"
+            if (respuestas.pregunta_1 !== '0' && respuestas.pregunta_1 !== 'No respondido') {
+                criterios.criterio1 = true;
+                criterios.criteriosCumplidos++;
+            }
+            
+            // Criterio 2: Tres dimensiones con promedio ≥ 2
+            const dimensiones = Object.entries(promedios).filter(([key]) => key !== 'maxPromedio');
+            const dimensionesCriticas = dimensiones.filter(([key, valor]) => valor >= 2).map(([key]) => {
+                const nombres = {
+                    'insultos': 'Insultos y burlas',
+                    'exclusion': 'Exclusión social',
+                    'agresion': 'Agresión física',
+                    'dano': 'Daño a pertenencias',
+                    'amenazas': 'Amenazas e intimidación',
+                    'tecnologia': 'Acoso mediante tecnología'
+                };
+                return nombres[key] || key;
+            });
+            
+            if (dimensionesCriticas.length >= 1) { // Corregido: según el documento, es mínimo UNO, no tres
+                criterios.criterio2 = true;
+                criterios.criteriosCumplidos++;
+                criterios.dimensionesCriticas = dimensionesCriticas;
+            }
+            
+            // Criterio 3: Una dimensión con promedio ≥ 3
+            const dimensionCritica = dimensiones.find(([key, valor]) => valor >= 3);
+            if (dimensionCritica) {
+                criterios.criterio3 = true;
+                criterios.criteriosCumplidos++;
+                const nombres = {
+                    'insultos': 'Insultos y burlas',
+                    'exclusion': 'Exclusión social',
+                    'agresion': 'Agresión física',
+                    'dano': 'Daño a pertenencias',
+                    'amenazas': 'Amenazas e intimidación',
+                    'tecnologia': 'Acoso mediante tecnología'
+                };
+                criterios.dimensionCritica = nombres[dimensionCritica[0]] || dimensionCritica[0];
+            }
+            
+            // Criterio 4: Algún ítem con respuesta = 4
+            const todosItems = [];
+            for (let i = 1; i <= 33; i++) {
+                if (respuestas[`pregunta_${i}`] === '4') {
+                    todosItems.push(`Ítem ${i}`);
+                }
+            }
+            
+            if (todosItems.length > 0) {
+                criterios.criterio4 = true;
+                criterios.criteriosCumplidos++;
+                criterios.itemsCriticos = todosItems;
+            }
+            
+            // Criterio 5: Indicadores de riesgo crítico (en este formulario no hay preguntas específicas de riesgo suicida)
+            criterios.criterio5 = false;
+            
+            // Determinar si es víctima
+            criterios.esVictima = criterios.criterio1 && (criterios.criterio2 || criterios.criterio3 || criterios.criterio4 || criterios.criterio5);
+            
+            // Riesgo crítico
+            criterios.riesgoCritico = criterios.itemsCriticos.length > 0 || 
+                                   (criterios.esVictima && promedios.maxPromedio >= 3.5);
+            
+            return criterios;
+        }
+        
+        function obtenerItemsAltaFrecuencia(respuestas) {
+            const items = [];
+            for (let i = 1; i <= 33; i++) {
+                const valor = respuestas[`pregunta_${i}`];
+                if (valor && valor !== 'No respondido' && parseInt(valor) >= 3) {
+                    const texto = {
+                        1: "En general, ¿con qué frecuencia has sido acosado en la escuela?",
+                        2: "Me han llamado con nombres feos, me han burlado de mí o me han bromeado de forma hiriente",
+                        3: "Me han dicho que soy poco atractivo, que soy feo o que mi cuerpo no es bonito",
+                        4: "Me han insultado por mi raza, color de piel o donde vengo",
+                        5: "Me han insultado por mis creencias religiosas",
+                        6: "Me han hecho comentarios desagradables sobre mis gustos o mis características",
+                        7: "Me han hecho bromas sobre mi forma de hablar, mi acento o porque soy de otro país",
+                        8: "Me han dejado fuera de sus juegos o actividades a propósito",
+                        9: "Me han dicho que no puedo jugar con ellos",
+                        10: "Me han ignorado completamente o no me hablan",
+                        11: "Me han prohibido a otros que jueguen conmigo o sean mis amigos",
+                        12: "Otros estudiantes desaparecen o se van cuando llego",
+                        13: "Me han hablado mal con otros estudiantes para que no quieran estar conmigo",
+                        14: "Me han excluido de chats de WhatsApp, juegos online o redes sociales",
+                        15: "Me han golpeado, pateado o empujado",
+                        16: "Me han jalado del pelo o arañado",
+                        17: "Me han encerrado en algún lugar",
+                        18: "Me han aventado cosas (pelotas, piedras, cuadernos, etc.)",
+                        19: "Me han robado dinero u otras cosas",
+                        20: "Me han roto o dañado a propósito mis cosas (mochilas, útiles, ropa, etc.)",
+                        21: "Me han sacado mis cosas sin permiso o las han dañado",
+                        22: "Me han amenazado o intimidado",
+                        23: "Me han obligado a hacer cosas que no quería hacer",
+                        24: "Me han dicho que van a contarles a otros algo malo de mí",
+                        25: "Me han molestado usando celulares (mensajes, fotos, videos)",
+                        26: "Me han molestado usando internet o redes sociales (Facebook, WhatsApp, TikTok, etc.)",
+                        27: "Me han enviado mensajes o comentarios desagradables",
+                        28: "Me han tocado de forma desagradable o inapropiada",
+                        29: "Me han hecho comentarios de naturaleza sexual que me incomodan",
+                        30: "Me han molestado, excluido o acosado por tener autismo, TDAH, dislexia u otra diferencia en cómo aprendo o me comporto",
+                        31: "Me han molestado o excluido por venir de otro país, mi acento, o porque soy extranjero/a",
+                        32: "Me han acosado por mi identidad de género, orientación sexual u otra característica personal",
+                        33: "Me han acosado de otra manera"
+                    }[i] || `Ítem ${i}`;
+                    
+                    items.push(`Ítem ${i}: ${texto} - Frecuencia: ${valorAFrecuencia(valor)}`);
+                }
+            }
+            
+            // Ordenar por frecuencia descendente y tomar los 5 primeros
+            return items.sort((a, b) => {
+                const valorA = parseInt(a.split('Frecuencia: ')[1]);
+                const valorB = parseInt(b.split('Frecuencia: ')[1]);
+                return valorB - valorA;
+            }).slice(0, 5);
+        }
+        
+        function caracterizarVictimizacion(respuestas, promedios) {
+            // Tipo predominante
+            const maxDimension = Object.entries(promedios)
+                .filter(([key]) => key !== 'maxPromedio')
+                .reduce((max, current) => current[1] > max[1] ? current : max, ['', 0]);
+            
+            const tipos = {
+                'insultos': 'Verbal',
+                'exclusion': 'Social',
+                'agresion': 'Física',
+                'dano': 'Física',
+                'amenazas': 'Verbal',
+                'tecnologia': 'Tecnológica'
+            };
+            
+            let tipoPredominante = tipos[maxDimension[0]] || 'Mixta';
+            const valoresDimensiones = Object.values(promedios).filter(val => typeof val === 'number');
+            const segundoMax = Math.max(...valoresDimensiones.filter(val => val !== maxDimension[1]));
+            
+            if (maxDimension[1] - segundoMax < 0.5) {
+                tipoPredominante = 'Mixta';
+            }
+            
+            // Frecuencia
+            let frecuencia = 'Esporádica';
+            if (promedios.maxPromedio >= 3) {
+                frecuencia = 'Sistemática';
+            } else if (promedios.maxPromedio >= 2) {
+                frecuencia = 'Frecuente';
+            }
+            
+            return {
+                tipoPredominante,
+                frecuencia,
+                maxDimension: maxDimension[0],
+                maxPromedio: maxDimension[1]
+            };
+        }
+        
+        function generarFundamentacion(nivelRiesgo, criterios, promedios) {
+            switch(nivelRiesgo) {
+                case "CRÍTICO":
+                    return "Se identifican ítems con frecuencia máxima (varias veces a la semana) y/o promedio de victimización muy elevado (≥ 3.5), lo que indica una situación de alta severidad que requiere intervención inmediata.";
+                case "ALTO":
+                    return `El estudiante cumple con los criterios de victimización (${criterios.criteriosCumplidos} de 5) y presenta un promedio de victimización elevado (${promedios.maxPromedio.toFixed(2)} ≥ 3), indicando una situación grave que requiere intervención urgente.`;
+                case "MEDIO":
+                    return `El estudiante cumple con los criterios de victimización (${criterios.criteriosCumplidos} de 5) con un nivel de frecuencia moderado, lo que requiere seguimiento cercano y plan de apoyo.`;
+                case "BAJO":
+                    return "Se identifican experiencias de acoso con frecuencia baja (ocasional), sin cumplir criterios completos de victimización, pero requiere monitoreo para prevenir escalada.";
+                default:
+                    return "No se identifican indicadores significativos de victimización escolar según los criterios del cuestionario OBVQ-R.";
+            }
+        }
+        
+        function generarIntervenciones(nivelRiesgo, caracterizacion) {
+            const intervenciones = {
+                'Para el estudiante': [],
+                'Con la familia': [],
+                'En el aula/curso': [],
+                'Con perpetradores': [],
+                'A nivel institucional': []
+            };
+            
+            switch(nivelRiesgo) {
+                case "CRÍTICO":
+                case "ALTO":
+                    intervenciones['Para el estudiante'] = [
+                        "• Acompañamiento psicosocial intensivo",
+                        "• Derivación psicológica externa si es necesario",
+                        "• Plan de seguridad individual",
+                        "• Estrategias de afrontamiento y regulación emocional"
+                    ];
+                    intervenciones['Con la familia'] = [
+                        "• Entrevista de emergencia con apoderados",
+                        "• Plan de trabajo conjunto de apoyo",
+                        "• Orientación parental sobre señales de alerta",
+                        "• Coordinación con red de apoyo externa"
+                    ];
+                    intervenciones['En el aula/curso'] = [
+                        "• Intervención grupal inmediata",
+                        "• Trabajo intensivo en clima de aula",
+                        "• Actividades de sensibilización anti-bullying",
+                        "• Designación de compañeros protectores"
+                    ];
+                    intervenciones['Con perpetradores'] = [
+                        "• Entrevistas individuales de intervención",
+                        "• Plan de responsabilización",
+                        "• Talleres de empatía y resolución de conflictos",
+                        "• Seguimiento diario de conductas"
+                    ];
+                    intervenciones['A nivel institucional'] = [
+                        "• Activación inmediata del protocolo de acoso",
+                        "• Reunión de equipo de convivencia escolar",
+                        "• Refuerzo de supervisión en puntos críticos",
+                        "• Capacitación de docentes en intervención"
+                    ];
+                    break;
+                    
+                case "MEDIO":
+                    intervenciones['Para el estudiante'] = [
+                        "• Acompañamiento psicosocial regular",
+                        "• Derivación psicológica escolar",
+                        "• Plan de apoyo individual",
+                        "• Talleres de autoestima y habilidades sociales"
+                    ];
+                    intervenciones['Con la familia'] = [
+                        "• Entrevista informativa con apoderados",
+                        "• Plan de trabajo conjunto",
+                        "• Orientación parental",
+                        "• Coordinación de seguimiento"
+                    ];
+                    intervenciones['En el aula/curso'] = [
+                        "• Intervención grupal preventiva",
+                        "• Trabajo en clima de aula",
+                        "• Actividades de inclusión",
+                        "• Refuerzo de normas de convivencia"
+                    ];
+                    intervenciones['Con perpetradores'] = [
+                        "• Entrevistas de sensibilización",
+                        "• Acuerdos de conducta",
+                        "• Seguimiento semanal",
+                        "• Actividades restaurativas"
+                    ];
+                    intervenciones['A nivel institucional'] = [
+                        "• Seguimiento del protocolo de acoso",
+                        "• Reuniones periódicas de equipo",
+                        "• Refuerzo de supervisión",
+                        "• Evaluación de puntos críticos"
+                    ];
+                    break;
+                    
+                case "BAJO":
+                    intervenciones['Para el estudiante'] = [
+                        "• Monitoreo regular de situación",
+                        "• Talleres preventivos de convivencia",
+                        "• Refuerzo de habilidades sociales",
+                        "• Estrategias de afrontamiento básicas"
+                    ];
+                    intervenciones['Con la familia'] = [
+                        "• Información preventiva a apoderados",
+                        "• Recomendaciones generales de apoyo",
+                        "• Invitación a actividades escolares",
+                        "• Canales de comunicación abiertos"
+                    ];
+                    intervenciones['En el aula/curso'] = [
+                        "• Actividades de prevención de bullying",
+                        "• Refuerzo de clima de aula",
+                        "• Trabajo en empatía y respeto",
+                        "• Promoción de la inclusión"
+                    ];
+                    intervenciones['Con perpetradores'] = [
+                        "• Refuerzo de normas de convivencia",
+                        "• Conversaciones individuales",
+                        "• Monitoreo de conductas",
+                        "• Actividades de sensibilización"
+                    ];
+                    intervenciones['A nivel institucional'] = [
+                        "• Mantenimiento del protocolo preventivo",
+                        "• Supervisión regular",
+                        "• Capacitación docente continua",
+                        "• Evaluación de clima escolar"
+                    ];
+                    break;
+                    
+                default: // SIN RIESGO
+                    intervenciones['Para el estudiante'] = ["• No se requieren intervenciones específicas"];
+                    intervenciones['Con la familia'] = ["• No se requieren intervenciones específicas"];
+                    intervenciones['En el aula/curso'] = ["• Actividades preventivas generales"];
+                    intervenciones['Con perpetradores'] = ["• No se requieren intervenciones específicas"];
+                    intervenciones['A nivel institucional'] = ["• Mantenimiento de prácticas preventivas"];
+            }
+            
+            return intervenciones;
+        }
+        
+        // Función para limpiar formulario
+        function limpiarFormulario() {
+            if (confirm('¿Desea limpiar todo el formulario?')) {
+                document.querySelectorAll('input, textarea').forEach(elem => {
+                    if (elem.type === 'radio' || elem.type === 'checkbox') {
+                        elem.checked = false;
+                    } else {
+                        elem.value = '';
+                    }
+                });
+                document.getElementById('error-message').style.display = 'none';
+                document.getElementById('success-message').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
+
