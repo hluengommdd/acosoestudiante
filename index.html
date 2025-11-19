@@ -245,6 +245,24 @@
             font-size: 12px;
             border-left: 4px solid #2196f3;
         }
+        /* Estilos para campos obligatorios */
+        .campo.required label::after {
+            content: " *";
+            color: #e74c3c;
+        }
+        .campo.required input,
+        .campo.required textarea {
+            border-color: #e74c3c;
+        }
+        .campo.required input:focus,
+        .campo.required textarea:focus {
+            border-color: #e74c3c;
+            box-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
+        }
+        .required-field {
+            color: #e74c3c;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -279,58 +297,58 @@
 
         <h2>PRIMERA PARTE: INFORMACIÓN GENERAL</h2>
         <div class="section">
-            <div class="campo">
+            <div class="campo required">
                 <label>Código de estudiante (asignado por la escuela):</label>
-                <input type="text" id="codigo_estudiante" placeholder="Escriba el código asignado" />
+                <input type="text" id="codigo_estudiante" placeholder="Escriba el código asignado" required />
                 <small>(Este código es solo para los profesionales. Tu nombre NO aparece aquí)</small>
             </div>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div class="campo">
+                <div class="campo required">
                     <label>Curso:</label>
-                    <input type="text" id="curso" />
+                    <input type="text" id="curso" placeholder="Ej: 6° A" required />
                 </div>
-                <div class="campo">
+                <div class="campo required">
                     <label>Edad:</label>
-                    <input type="number" id="edad" min="8" max="18" /> años
+                    <input type="number" id="edad" min="8" max="18" placeholder="Años" required />
                 </div>
             </div>
             
-            <div class="campo">
+            <div class="campo required">
                 <label>Sexo:</label>
                 <div class="checkbox-group">
                     <div class="checkbox-item">
-                        <input type="checkbox" id="sexo_m" name="sexo" />
+                        <input type="checkbox" id="sexo_m" name="sexo" required />
                         <label for="sexo_m">Masculino</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="sexo_f" name="sexo" />
+                        <input type="checkbox" id="sexo_f" name="sexo" required />
                         <label for="sexo_f">Femenino</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="sexo_o" name="sexo" />
+                        <input type="checkbox" id="sexo_o" name="sexo" required />
                         <label for="sexo_o">Otro</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="sexo_n" name="sexo" />
+                        <input type="checkbox" id="sexo_n" name="sexo" required />
                         <label for="sexo_n">Prefiero no especificar</label>
                     </div>
                 </div>
             </div>
             
-            <div class="campo">
+            <div class="campo required">
                 <label>¿Hace cuánto tiempo asistes a este colegio?</label>
                 <div class="radio-group">
                     <div class="radio-item">
-                        <input type="radio" name="tiempo_colegio" id="tiempo_1" value="menos_1_anio" />
+                        <input type="radio" name="tiempo_colegio" id="tiempo_1" value="menos_1_anio" required />
                         <label for="tiempo_1">Menos de 1 año</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" name="tiempo_colegio" id="tiempo_2" value="1_2_anios" />
+                        <input type="radio" name="tiempo_colegio" id="tiempo_2" value="1_2_anios" required />
                         <label for="tiempo_2">Entre 1 y 2 años</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" name="tiempo_colegio" id="tiempo_3" value="mas_2_anios" />
+                        <input type="radio" name="tiempo_colegio" id="tiempo_3" value="mas_2_anios" required />
                         <label for="tiempo_3">Más de 2 años</label>
                     </div>
                 </div>
@@ -394,11 +412,11 @@
             <tbody>
                 <tr>
                     <td>1. En general, ¿con qué frecuencia has sido acosado en la escuela? (Acoso significa que alguien te ha lastimado a propósito, repetidas veces, y no puedes defenderte fácilmente)</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_1" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_1" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_1" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_1" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_1" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_1" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_1" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_1" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_1" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_1" value="4" required /></td>
                 </tr>
             </tbody>
         </table>
@@ -418,51 +436,51 @@
             <tbody>
                 <tr>
                     <td>2. Me han llamado con nombres feos, me han burlado de mí o me han bromeado de forma hiriente</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_2" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_2" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_2" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_2" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_2" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_2" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_2" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_2" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_2" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_2" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>3. Me han dicho que soy poco atractivo, que soy feo o que mi cuerpo no es bonito</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_3" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_3" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_3" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_3" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_3" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_3" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_3" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_3" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_3" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_3" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>4. Me han insultado por mi raza, color de piel o donde vengo</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_4" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_4" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_4" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_4" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_4" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_4" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_4" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_4" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_4" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_4" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>5. Me han insultado por mis creencias religiosas</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_5" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_5" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_5" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_5" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_5" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_5" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_5" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_5" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_5" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_5" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>6. Me han hecho comentarios desagradables sobre mis gustos o mis características</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_6" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_6" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_6" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_6" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_6" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_6" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_6" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_6" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_6" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_6" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>7. Me han hecho bromas sobre mi forma de hablar, mi acento o porque soy de otro país</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_7" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_7" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_7" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_7" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_7" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_7" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_7" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_7" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_7" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_7" value="4" required /></td>
                 </tr>
             </tbody>
         </table>
@@ -482,59 +500,59 @@
             <tbody>
                 <tr>
                     <td>8. Me han dejado fuera de sus juegos o actividades a propósito</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_8" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_8" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_8" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_8" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_8" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_8" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_8" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_8" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_8" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_8" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>9. Me han dicho que no puedo jugar con ellos</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_9" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_9" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_9" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_9" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_9" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_9" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_9" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_9" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_9" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_9" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>10. Me han ignorado completamente o no me hablan</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_10" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_10" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_10" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_10" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_10" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_10" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_10" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_10" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_10" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_10" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>11. Me han prohibido a otros que jueguen conmigo o sean mis amigos</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_11" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_11" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_11" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_11" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_11" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_11" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_11" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_11" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_11" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_11" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>12. Otros estudiantes desaparecen o se van cuando llego</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_12" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_12" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_12" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_12" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_12" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_12" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_12" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_12" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_12" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_12" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>13. Me han hablado mal con otros estudiantes para que no quieran estar conmigo</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_13" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_13" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_13" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_13" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_13" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_13" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_13" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_13" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_13" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_13" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>14. Me han excluido de chats de WhatsApp, juegos online o redes sociales</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_14" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_14" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_14" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_14" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_14" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_14" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_14" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_14" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_14" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_14" value="4" required /></td>
                 </tr>
             </tbody>
         </table>
@@ -554,35 +572,35 @@
             <tbody>
                 <tr>
                     <td>15. Me han golpeado, pateado o empujado</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_15" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_15" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_15" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_15" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_15" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_15" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_15" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_15" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_15" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_15" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>16. Me han jalado del pelo o arañado</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_16" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_16" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_16" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_16" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_16" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_16" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_16" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_16" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_16" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_16" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>17. Me han encerrado en algún lugar</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_17" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_17" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_17" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_17" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_17" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_17" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_17" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_17" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_17" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_17" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>18. Me han aventado cosas (pelotas, piedras, cuadernos, etc.)</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_18" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_18" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_18" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_18" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_18" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_18" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_18" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_18" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_18" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_18" value="4" required /></td>
                 </tr>
             </tbody>
         </table>
@@ -602,27 +620,27 @@
             <tbody>
                 <tr>
                     <td>19. Me han robado dinero u otras cosas</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_19" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_19" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_19" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_19" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_19" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_19" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_19" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_19" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_19" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_19" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>20. Me han roto o dañado a propósito mis cosas (mochilas, útiles, ropa, etc.)</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_20" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_20" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_20" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_20" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_20" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_20" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_20" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_20" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_20" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_20" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>21. Me han sacado mis cosas sin permiso o las han dañado</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_21" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_21" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_21" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_21" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_21" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_21" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_21" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_21" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_21" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_21" value="4" required /></td>
                 </tr>
             </tbody>
         </table>
@@ -642,27 +660,27 @@
             <tbody>
                 <tr>
                     <td>22. Me han amenazado o intimidado</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_22" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_22" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_22" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_22" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_22" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_22" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_22" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_22" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_22" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_22" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>23. Me han obligado a hacer cosas que no quería hacer</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_23" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_23" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_23" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_23" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_23" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_23" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_23" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_23" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_23" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_23" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>24. Me han dicho que van a contarles a otros algo malo de mí</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_24" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_24" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_24" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_24" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_24" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_24" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_24" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_24" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_24" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_24" value="4" required /></td>
                 </tr>
             </tbody>
         </table>
@@ -682,27 +700,27 @@
             <tbody>
                 <tr>
                     <td>25. Me han molestado usando celulares (mensajes, fotos, videos)</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_25" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_25" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_25" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_25" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_25" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_25" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_25" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_25" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_25" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_25" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>26. Me han molestado usando internet o redes sociales (Facebook, WhatsApp, TikTok, etc.)</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_26" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_26" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_26" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_26" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_26" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_26" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_26" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_26" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_26" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_26" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>27. Me han enviado mensajes o comentarios desagradables</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_27" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_27" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_27" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_27" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_27" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_27" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_27" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_27" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_27" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_27" value="4" required /></td>
                 </tr>
             </tbody>
         </table>
@@ -722,232 +740,232 @@
             <tbody>
                 <tr>
                     <td>28. Me han tocado de forma desagradable o inapropiada</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_28" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_28" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_28" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_28" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_28" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_28" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_28" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_28" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_28" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_28" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>29. Me han hecho comentarios de naturaleza sexual que me incomodan</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_29" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_29" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_29" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_29" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_29" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_29" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_29" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_29" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_29" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_29" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>30. Me han molestado, excluido o acosado por tener autismo, TDAH, dislexia u otra diferencia en cómo aprendo o me comporto</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_30" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_30" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_30" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_30" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_30" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_30" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_30" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_30" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_30" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_30" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>31. Me han molestado o excluido por venir de otro país, mi acento, o porque soy extranjero/a</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_31" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_31" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_31" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_31" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_31" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_31" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_31" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_31" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_31" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_31" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>32. Me han acosado por mi identidad de género, orientación sexual u otra característica personal</td>
-                    <td class="option-cell"><input type="radio" name="pregunta_32" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_32" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_32" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_32" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_32" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_32" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_32" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_32" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_32" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_32" value="4" required /></td>
                 </tr>
                 <tr>
                     <td>
                         33. Me han acosado de otra manera (especifica): 
                         <input type="text" id="pregunta_33_especifica" style="width: 100%; margin-top: 5px;" placeholder="Especifique..." />
                     </td>
-                    <td class="option-cell"><input type="radio" name="pregunta_33" value="0" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_33" value="1" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_33" value="2" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_33" value="3" /></td>
-                    <td class="option-cell"><input type="radio" name="pregunta_33" value="4" /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_33" value="0" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_33" value="1" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_33" value="2" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_33" value="3" required /></td>
+                    <td class="option-cell"><input type="radio" name="pregunta_33" value="4" required /></td>
                 </tr>
             </tbody>
         </table>
 
         <h2>CUARTA PARTE: INFORMACIÓN ADICIONAL</h2>
         
-        <div class="campo">
+        <div class="campo required">
             <label>¿Cuándo comenzó el acoso? ¿Hace cuánto tiempo que comienza este acoso?</label>
             <div class="radio-group">
                 <div class="radio-item">
-                    <input type="radio" name="inicio_acoso" id="acoso_1" value="menos_1_semana" />
+                    <input type="radio" name="inicio_acoso" id="acoso_1" value="menos_1_semana" required />
                     <label for="acoso_1">Hace menos de 1 semana</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="inicio_acoso" id="acoso_2" value="1_2_semanas" />
+                    <input type="radio" name="inicio_acoso" id="acoso_2" value="1_2_semanas" required />
                     <label for="acoso_2">Hace 1-2 semanas</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="inicio_acoso" id="acoso_3" value="1_3_meses" />
+                    <input type="radio" name="inicio_acoso" id="acoso_3" value="1_3_meses" required />
                     <label for="acoso_3">Hace 1-3 meses</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="inicio_acoso" id="acoso_4" value="3_6_meses" />
+                    <input type="radio" name="inicio_acoso" id="acoso_4" value="3_6_meses" required />
                     <label for="acoso_4">Hace 3-6 meses</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="inicio_acoso" id="acoso_5" value="mas_6_meses" />
+                    <input type="radio" name="inicio_acoso" id="acoso_5" value="mas_6_meses" required />
                     <label for="acoso_5">Hace más de 6 meses</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="inicio_acoso" id="acoso_6" value="no_recuerdo" />
+                    <input type="radio" name="inicio_acoso" id="acoso_6" value="no_recuerdo" required />
                     <label for="acoso_6">No recuerdo muy bien cuándo empezó</label>
                 </div>
             </div>
         </div>
         
-        <div class="campo">
+        <div class="campo required">
             <label>¿Quiénes te molestan? Marca todas las opciones que correspondan:</label>
             <div class="checkbox-group">
                 <div class="checkbox-item">
-                    <input type="checkbox" id="quienes_1" value="mismo_curso" />
+                    <input type="checkbox" id="quienes_1" value="mismo_curso" required />
                     <label for="quienes_1">Estudiantes de mi mismo curso</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="quienes_2" value="cursos_mayores" />
+                    <input type="checkbox" id="quienes_2" value="cursos_mayores" required />
                     <label for="quienes_2">Estudiantes de cursos mayores</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="quienes_3" value="cursos_menores" />
+                    <input type="checkbox" id="quienes_3" value="cursos_menores" required />
                     <label for="quienes_3">Estudiantes de cursos menores</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="quienes_4" value="otros_cursos" />
+                    <input type="checkbox" id="quienes_4" value="otros_cursos" required />
                     <label for="quienes_4">Estudiantes de otros cursos</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="quienes_5" value="un_solo_estudiante" />
+                    <input type="checkbox" id="quienes_5" value="un_solo_estudiante" required />
                     <label for="quienes_5">Un solo estudiante principalmente</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="quienes_6" value="un_grupo" />
+                    <input type="checkbox" id="quienes_6" value="un_grupo" required />
                     <label for="quienes_6">Un grupo de estudiantes</label>
                 </div>
             </div>
             <div style="margin-top: 10px;">
                 <label>Si es un grupo, ¿cuántos aproximadamente?</label>
-                <input type="number" id="grupo_cantidad" min="2" />
+                <input type="number" id="grupo_cantidad" min="2" required />
             </div>
         </div>
         
-        <div class="campo">
+        <div class="campo required">
             <label>¿Dónde ocurre el acoso? Marca todas las situaciones que apliquen:</label>
             <div class="checkbox-group">
                 <div class="checkbox-item">
-                    <input type="checkbox" id="donde_1" value="sala_clases" />
+                    <input type="checkbox" id="donde_1" value="sala_clases" required />
                     <label for="donde_1">En la sala de clases</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="donde_2" value="patio_recreo" />
+                    <input type="checkbox" id="donde_2" value="patio_recreo" required />
                     <label for="donde_2">En el patio o área de recreo</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="donde_3" value="pasillos" />
+                    <input type="checkbox" id="donde_3" value="pasillos" required />
                     <label for="donde_3">En los pasillos</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="donde_4" value="banos" />
+                    <input type="checkbox" id="donde_4" value="banos" required />
                     <label for="donde_4">En el baño</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="donde_5" value="biblioteca" />
+                    <input type="checkbox" id="donde_5" value="biblioteca" required />
                     <label for="donde_5">En la biblioteca</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="donde_6" value="comedor" />
+                    <input type="checkbox" id="donde_6" value="comedor" required />
                     <label for="donde_6">En el comedor</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="donde_7" value="camino_casa" />
+                    <input type="checkbox" id="donde_7" value="camino_casa" required />
                     <label for="donde_7">En el camino a casa o a la escuela</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="donde_8" value="fuera_escuela" />
+                    <input type="checkbox" id="donde_8" value="fuera_escuela" required />
                     <label for="donde_8">Fuera de la escuela (parque, centro comercial, etc.)</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="donde_9" value="internet_redes" />
+                    <input type="checkbox" id="donde_9" value="internet_redes" required />
                     <label for="donde_9">Por internet o redes sociales</label>
                 </div>
                 <div class="checkbox-item">
-                    <input type="checkbox" id="donde_10" value="otro_lugar" />
+                    <input type="checkbox" id="donde_10" value="otro_lugar" required />
                     <label for="donde_10">Otro lugar:</label>
-                    <input type="text" id="otro_lugar_especifica" style="width: 200px; margin-left: 5px;" placeholder="Especificar" />
+                    <input type="text" id="otro_lugar_especifica" style="width: 200px; margin-left: 5px;" placeholder="Especificar" required />
                 </div>
             </div>
         </div>
         
-        <div class="campo">
+        <div class="campo required">
             <label>Durante el acoso, ¿hay adultos cerca?</label>
             <div class="radio-group">
                 <div class="radio-item">
-                    <input type="radio" name="adultos" id="adultos_1" value="si_frecuentemente" />
+                    <input type="radio" name="adultos" id="adultos_1" value="si_frecuentemente" required />
                     <label for="adultos_1">Sí, frecuentemente</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="adultos" id="adultos_2" value="a_veces" />
+                    <input type="radio" name="adultos" id="adultos_2" value="a_veces" required />
                     <label for="adultos_2">A veces</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="adultos" id="adultos_3" value="rara_vez" />
+                    <input type="radio" name="adultos" id="adultos_3" value="rara_vez" required />
                     <label for="adultos_3">Rara vez</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="adultos" id="adultos_4" value="nunca" />
+                    <input type="radio" name="adultos" id="adultos_4" value="nunca" required />
                     <label for="adultos_4">Nunca</label>
                 </div>
             </div>
         </div>
         
-        <div class="campo">
+        <div class="campo required">
             <label>Si hay adultos, ¿hacen algo?</label>
             <div class="radio-group">
                 <div class="radio-item">
-                    <input type="radio" name="intervencion" id="intervencion_1" value="si_intervienen" />
+                    <input type="radio" name="intervencion" id="intervencion_1" value="si_intervienen" required />
                     <label for="intervencion_1">Sí, intervienen y me ayudan</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="intervencion" id="intervencion_2" value="a_veces_intervienen" />
+                    <input type="radio" name="intervencion" id="intervencion_2" value="a_veces_intervienen" required />
                     <label for="intervencion_2">A veces intervienen</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="intervencion" id="intervencion_3" value="ven_no_hacen" />
+                    <input type="radio" name="intervencion" id="intervencion_3" value="ven_no_hacen" required />
                     <label for="intervencion_3">Ven pero no hacen nada</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="intervencion" id="intervencion_4" value="no_saben" />
+                    <input type="radio" name="intervencion" id="intervencion_4" value="no_saben" required />
                     <label for="intervencion_4">No saben qué ocurre</label>
                 </div>
             </div>
         </div>
         
-        <div class="campo">
+        <div class="campo required">
             <label>¿Hay estudiantes que te ayuden o defiendan?</label>
             <div class="radio-group">
                 <div class="radio-item">
-                    <input type="radio" name="apoyo" id="apoyo_1" value="si_muchos" />
+                    <input type="radio" name="apoyo" id="apoyo_1" value="si_muchos" required />
                     <label for="apoyo_1">Sí, muchos</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="apoyo" id="apoyo_2" value="algunos" />
+                    <input type="radio" name="apoyo" id="apoyo_2" value="algunos" required />
                     <label for="apoyo_2">Algunos</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="apoyo" id="apoyo_3" value="muy_pocos" />
+                    <input type="radio" name="apoyo" id="apoyo_3" value="muy_pocos" required />
                     <label for="apoyo_3">Muy pocos</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="apoyo" id="apoyo_4" value="nadie" />
+                    <input type="radio" name="apoyo" id="apoyo_4" value="nadie" required />
                     <label for="apoyo_4">Nadie</label>
                 </div>
             </div>
@@ -957,45 +975,45 @@
         <p>Por favor, describe cómo te has sentido con estas experiencias:</p>
         <div class="checkbox-group">
             <div class="checkbox-item">
-                <input type="checkbox" id="sentimiento_1" value="triste_deprimido" />
+                <input type="checkbox" id="sentimiento_1" value="triste_deprimido" required />
                 <label for="sentimiento_1">Triste o deprimido</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="sentimiento_2" value="ansioso_asustado" />
+                <input type="checkbox" id="sentimiento_2" value="ansioso_asustado" required />
                 <label for="sentimiento_2">Ansioso o asustado</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="sentimiento_3" value="enojado_furioso" />
+                <input type="checkbox" id="sentimiento_3" value="enojado_furioso" required />
                 <label for="sentimiento_3">Enojado o furioso</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="sentimiento_4" value="avergonzado_humillado" />
+                <input type="checkbox" id="sentimiento_4" value="avergonzado_humillado" required />
                 <label for="sentimiento_4">Avergonzado o humillado</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="sentimiento_5" value="solo_aislado" />
+                <input type="checkbox" id="sentimiento_5" value="solo_aislado" required />
                 <label for="sentimiento_5">Solo o aislado</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="sentimiento_6" value="sin_importancia" />
+                <input type="checkbox" id="sentimiento_6" value="sin_importancia" required />
                 <label for="sentimiento_6">Sin importancia o sin valor</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="sentimiento_7" value="problemas_dormir" />
+                <input type="checkbox" id="sentimiento_7" value="problemas_dormir" required />
                 <label for="sentimiento_7">Problemas para dormir o pesadillas</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="sentimiento_8" value="dolores" />
+                <input type="checkbox" id="sentimiento_8" value="dolores" required />
                 <label for="sentimiento_8">Dolores de cabeza o estómago</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="sentimiento_9" value="no_quiero_escuela" />
+                <input type="checkbox" id="sentimiento_9" value="no_quiero_escuela" required />
                 <label for="sentimiento_9">No quiero ir a la escuela</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="sentimiento_10" value="otros_sentimientos" />
+                <input type="checkbox" id="sentimiento_10" value="otros_sentimientos" required />
                 <label for="sentimiento_10">Otros sentimientos:</label>
-                <input type="text" id="otros_sentimientos" style="width: 200px; margin-left: 5px;" placeholder="Especificar" />
+                <input type="text" id="otros_sentimientos" style="width: 200px; margin-left: 5px;" placeholder="Especificar" required />
             </div>
         </div>
 
@@ -1011,99 +1029,99 @@
             <tbody>
                 <tr>
                     <td>Padres o apoderados</td>
-                    <td class="option-cell"><input type="radio" name="contado_padres" value="si" /></td>
-                    <td class="option-cell"><input type="radio" name="contado_padres" value="no" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_padres" value="si" required /></td>
+                    <td class="option-cell"><input type="radio" name="contado_padres" value="no" required /></td>
                 </tr>
                 <tr>
                     <td>Profesores</td>
-                    <td class="option-cell"><input type="radio" name="contado_profesores" value="si" /></td>
-                    <td class="option-cell"><input type="radio" name="contado_profesores" value="no" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_profesores" value="si" required /></td>
+                    <td class="option-cell"><input type="radio" name="contado_profesores" value="no" required /></td>
                 </tr>
                 <tr>
                     <td>Directivos (director, inspector)</td>
-                    <td class="option-cell"><input type="radio" name="contado_directivos" value="si" /></td>
-                    <td class="option-cell"><input type="radio" name="contado_directivos" value="no" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_directivos" value="si" required /></td>
+                    <td class="option-cell"><input type="radio" name="contado_directivos" value="no" required /></td>
                 </tr>
                 <tr>
                     <td>Psicólogo o consejero escolar</td>
-                    <td class="option-cell"><input type="radio" name="contado_psicologo" value="si" /></td>
-                    <td class="option-cell"><input type="radio" name="contado_psicologo" value="no" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_psicologo" value="si" required /></td>
+                    <td class="option-cell"><input type="radio" name="contado_psicologo" value="no" required /></td>
                 </tr>
                 <tr>
                     <td>Compañeros amigos</td>
-                    <td class="option-cell"><input type="radio" name="contado_amigos" value="si" /></td>
-                    <td class="option-cell"><input type="radio" name="contado_amigos" value="no" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_amigos" value="si" required /></td>
+                    <td class="option-cell"><input type="radio" name="contado_amigos" value="no" required /></td>
                 </tr>
                 <tr>
                     <td>Otro adulto de confianza</td>
-                    <td class="option-cell"><input type="radio" name="contado_otro" value="si" /></td>
-                    <td class="option-cell"><input type="radio" name="contado_otro" value="no" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_otro" value="si" required /></td>
+                    <td class="option-cell"><input type="radio" name="contado_otro" value="no" required /></td>
                 </tr>
                 <tr>
                     <td>No se lo he contado a nadie</td>
-                    <td class="option-cell"><input type="radio" name="contado_nadie" value="si" /></td>
-                    <td class="option-cell"><input type="radio" name="contado_nadie" value="no" /></td>
+                    <td class="option-cell"><input type="radio" name="contado_nadie" value="si" required /></td>
+                    <td class="option-cell"><input type="radio" name="contado_nadie" value="no" required /></td>
                 </tr>
             </tbody>
         </table>
 
-        <div class="campo">
+        <div class="campo required">
             <label>Si ya le contaste a un adulto de la escuela, ¿qué pasó?</label>
             <div class="radio-group">
                 <div class="radio-item">
-                    <input type="radio" name="resultado_contado" id="resultado_1" value="medidas_proteccion" />
+                    <input type="radio" name="resultado_contado" id="resultado_1" value="medidas_proteccion" required />
                     <label for="resultado_1">Me escucharon y tomaron medidas para protegerme</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="resultado_contado" id="resultado_2" value="escucharon_no_hicieron" />
+                    <input type="radio" name="resultado_contado" id="resultado_2" value="escucharon_no_hicieron" required />
                     <label for="resultado_2">Me escucharon pero no hicieron nada</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="resultado_contado" id="resultado_3" value="no_me_creyeron" />
+                    <input type="radio" name="resultado_contado" id="resultado_3" value="no_me_creyeron" required />
                     <label for="resultado_3">No me creyeron</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="resultado_contado" id="resultado_4" value="culpa_mia" />
+                    <input type="radio" name="resultado_contado" id="resultado_4" value="culpa_mia" required />
                     <label for="resultado_4">Me dijeron que era culpa mía ("hiciste algo para provocar")</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="resultado_contado" id="resultado_5" value="pidieron_no_contar" />
+                    <input type="radio" name="resultado_contado" id="resultado_5" value="pidieron_no_contar" required />
                     <label for="resultado_5">Me pidieron que no contara a mis papás</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="resultado_contado" id="resultado_6" value="no_se_que_pasara" />
+                    <input type="radio" name="resultado_contado" id="resultado_6" value="no_se_que_pasara" required />
                     <label for="resultado_6">Aún no sé qué va a pasar</label>
                 </div>
             </div>
         </div>
 
-        <div class="campo">
+        <div class="campo required">
             <label>Si no se lo has contado a nadie, ¿por qué?</label>
             <div class="radio-group">
                 <div class="radio-item">
-                    <input type="radio" name="razon_no_contado" id="razon_1" value="miedo_represalias" />
+                    <input type="radio" name="razon_no_contado" id="razon_1" value="miedo_represalias" required />
                     <label for="razon_1">Tengo miedo de represalias</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="razon_no_contado" id="razon_2" value="no_me_creyeron" />
+                    <input type="radio" name="razon_no_contado" id="razon_2" value="no_me_creyeron" required />
                     <label for="razon_2">Creo que no me van a creer</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="razon_no_contado" id="razon_3" value="verguenza" />
+                    <input type="radio" name="razon_no_contado" id="razon_3" value="verguenza" required />
                     <label for="razon_3">Tengo vergüenza</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="razon_no_contado" id="razon_4" value="no_se_a_quien" />
+                    <input type="radio" name="razon_no_contado" id="razon_4" value="no_se_a_quien" required />
                     <label for="razon_4">No sé a quién contarle</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="razon_no_contado" id="razon_5" value="no_me_pueden_ayudar" />
+                    <input type="radio" name="razon_no_contado" id="razon_5" value="no_me_pueden_ayudar" required />
                     <label for="razon_5">Pienso que no me pueden ayudar</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="razon_no_contado" id="razon_6" value="otra_razon" />
+                    <input type="radio" name="razon_no_contado" id="razon_6" value="otra_razon" required />
                     <label for="razon_6">Otra razón:</label>
-                    <input type="text" id="otra_razon_especifica" style="width: 200px; margin-left: 5px;" placeholder="Especificar" />
+                    <input type="text" id="otra_razon_especifica" style="width: 200px; margin-left: 5px;" placeholder="Especificar" required />
                 </div>
             </div>
         </div>
@@ -1112,45 +1130,45 @@
         <p>Marca las formas de apoyo que crees que necesitas:</p>
         <div class="checkbox-group">
             <div class="checkbox-item">
-                <input type="checkbox" id="apoyo_1" value="psicologo_consejero" />
+                <input type="checkbox" id="apoyo_1" value="psicologo_consejero" required />
                 <label for="apoyo_1">Hablar con un psicólogo o consejero</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="apoyo_2" value="cambiar_sala" />
+                <input type="checkbox" id="apoyo_2" value="cambiar_sala" required />
                 <label for="apoyo_2">Cambiar de sala de clases</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="apoyo_3" value="amigo_apoyo" />
+                <input type="checkbox" id="apoyo_3" value="amigo_apoyo" required />
                 <label for="apoyo_3">Tener un amigo o compañero que me apoye</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="apoyo_4" value="profesores_vigilen" />
+                <input type="checkbox" id="apoyo_4" value="profesores_vigilen" required />
                 <label for="apoyo_4">Que los profesores vigilen más</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="apoyo_5" value="intervengan_molestan" />
+                <input type="checkbox" id="apoyo_5" value="intervengan_molestan" required />
                 <label for="apoyo_5">Que se intervenga con quienes me molestan</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="apoyo_6" value="padres_sepan" />
+                <input type="checkbox" id="apoyo_6" value="padres_sepan" required />
                 <label for="apoyo_6">Que mis padres sepan lo que sucede</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="apoyo_7" value="descanso_escuela" />
+                <input type="checkbox" id="apoyo_7" value="descanso_escuela" required />
                 <label for="apoyo_7">Tomar un descanso de la escuela</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="apoyo_8" value="apoyo_academico" />
+                <input type="checkbox" id="apoyo_8" value="apoyo_academico" required />
                 <label for="apoyo_8">Apoyo académico (he atrasado materias)</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="apoyo_9" value="cambiar_grupo" />
+                <input type="checkbox" id="apoyo_9" value="cambiar_grupo" required />
                 <label for="apoyo_9">Cambiar de grupo o actividades</label>
             </div>
             <div class="checkbox-item">
-                <input type="checkbox" id="apoyo_10" value="otro_apoyo" />
+                <input type="checkbox" id="apoyo_10" value="otro_apoyo" required />
                 <label for="apoyo_10">Otro tipo de ayuda:</label>
-                <input type="text" id="otro_apoyo_especifica" style="width: 200px; margin-left: 5px;" placeholder="Especificar" />
+                <input type="text" id="otro_apoyo_especifica" style="width: 200px; margin-left: 5px;" placeholder="Especificar" required />
             </div>
         </div>
 
@@ -1225,12 +1243,29 @@
         
         // Función principal para enviar respuestas
         function enviarRespuestas() {
-            // Validación básica
-            const codigoEstudiante = document.getElementById('codigo_estudiante').value;
-            const curso = document.getElementById('curso').value;
-            const edad = document.getElementById('edad').value;
+            // Validación de campos obligatorios
+            let formValido = true;
+            const camposObligatorios = document.querySelectorAll('.required input, .required textarea, .required select');
             
-            if (!codigoEstudiante || !curso || !edad) {
+            camposObligatorios.forEach(campo => {
+                if (campo.type === 'radio' || campo.type === 'checkbox') {
+                    const nombre = campo.name;
+                    const radios = document.querySelectorAll(`input[name="${nombre}"]:checked`);
+                    if (radios.length === 0) {
+                        formValido = false;
+                        campo.parentElement.parentElement.classList.add('campo-error');
+                    } else {
+                        campo.parentElement.parentElement.classList.remove('campo-error');
+                    }
+                } else if (!campo.value.trim()) {
+                    formValido = false;
+                    campo.parentElement.classList.add('campo-error');
+                } else {
+                    campo.parentElement.classList.remove('campo-error');
+                }
+            });
+            
+            if (!formValido) {
                 document.getElementById('error-message').style.display = 'block';
                 document.getElementById('success-message').style.display = 'none';
                 return;
@@ -2502,17 +2537,9 @@
                 tipoPredominante = 'Mixta';
             }
             
-            // Frecuencia
-            let frecuencia = 'Esporádica';
-            if (promedios.maxPromedio >= 3) {
-                frecuencia = 'Sistemática';
-            } else if (promedios.maxPromedio >= 2) {
-                frecuencia = 'Frecuente';
-            }
-            
             return {
                 tipoPredominante,
-                frecuencia,
+                frecuencia: 'Esporádica',
                 maxDimension: maxDimension[0],
                 maxPromedio: maxDimension[1]
             };
