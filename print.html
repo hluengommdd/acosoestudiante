@@ -198,43 +198,70 @@
     <script>
         // Obtener datos de sessionStorage
         const printData = JSON.parse(sessionStorage.getItem('printData') || '{}')
-        
-        if (!printData.curso) {
-            document.getElementById('printContent').innerHTML = '<p>No hay datos para imprimir.</p>'
-        } else {
-            // Generar contenido HTML
-            const fechaEmision = new Date().toLocaleDateString('es-CL', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-            })
-            const horaEmision = new Date().toLocaleTimeString('es-CL', {
-                hour: '2-digit',
-                minute: '2-digit'
-            })
-            
-            let html = `
-                <header class="print-header">
-                    <div class="header-left">
-                        <h1>CUESTIONARIO DE EXPERIENCIAS EN LA ESCUELA OBVQ-R</h1>
-                        <div class="sub">Colegio Carmera Romero de Espinoza - MMDD Concepción</div>
-                        <div class="meta">Fecha de aplicación: ${fechaEmision} | Hora: ${horaEmision}</div>
-                    </div>
-                    <div class="header-right">
-                      <img src="logo-oficial.png" alt="Logo" />
-                    </div>
-                </header>
 
-                <div class="info-section">
-                    <h3>Información General del Estudiante</h3>
-                    <div class="info-grid">
-                        <div><strong>Curso:</strong> ${printData.curso || 'No especificado'}</div>
-                        <div><strong>Edad:</strong> ${printData.edad || 'No especificada'} años</div>
-                        <div><strong>Sexo:</strong> ${Array.isArray(printData.sexo) && printData.sexo.length > 0 ? printData.sexo.join(', ') : 'No especificado'}</div>
-                        <div><strong>Tiempo en el colegio:</strong> ${getTiempoColegio(printData.tiempo_colegio)}</div>
-                    </div>
-                </div>
-            `
+        // Helper: intenta obtener el logo como dataURL para evitar problemas de CORS/404 al generar PDF
+        async function fetchLogoDataUrl() {
+          try {
+            // calcular base dinámicamente para soportar hosting en subpaths (ej. GitHub Pages)
+            const path = window.location.pathname
+            const basePath = path.endsWith('/') ? path : path.replace(/\/[^\/]*$/, '/')
+            const logoUrl = window.location.origin + basePath + 'logo-oficial.png'
+
+            const resp = await fetch(logoUrl, { cache: 'no-store' })
+            if (!resp.ok) throw new Error('Logo no encontrado')
+            const blob = await resp.blob()
+            return await new Promise((resolve, reject) => {
+              const reader = new FileReader()
+              reader.onload = () => resolve(reader.result)
+              reader.onerror = reject
+              reader.readAsDataURL(blob)
+            })
+          } catch (err) {
+            // fallback a ruta relativa (puede fallar en algunos hosts)
+            return 'logo-oficial.png'
+          }
+        }
+
+        ;(async () => {
+          if (!printData.curso) {
+            document.getElementById('printContent').innerHTML = '<p>No hay datos para imprimir.</p>'
+            return
+          }
+
+          const fechaEmision = new Date().toLocaleDateString('es-CL', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          })
+          const horaEmision = new Date().toLocaleTimeString('es-CL', {
+            hour: '2-digit',
+            minute: '2-digit'
+          })
+
+          const logoSrc = await fetchLogoDataUrl()
+
+          let html = `
+            <header class="print-header">
+              <div class="header-left">
+                <h1>CUESTIONARIO DE EXPERIENCIAS EN LA ESCUELA OBVQ-R</h1>
+                <div class="sub">Colegio Carmera Romero de Espinoza - MMDD Concepción</div>
+                <div class="meta">Fecha de aplicación: ${fechaEmision} | Hora: ${horaEmision}</div>
+              </div>
+              <div class="header-right">
+                <img src="${logoSrc}" alt="Logo" />
+              </div>
+            </header>
+
+            <div class="info-section">
+              <h3>Información General del Estudiante</h3>
+              <div class="info-grid">
+                <div><strong>Curso:</strong> ${printData.curso || 'No especificado'}</div>
+                <div><strong>Edad:</strong> ${printData.edad || 'No especificada'} años</div>
+                <div><strong>Sexo:</strong> ${Array.isArray(printData.sexo) && printData.sexo.length > 0 ? printData.sexo.join(', ') : 'No especificado'}</div>
+                <div><strong>Tiempo en el colegio:</strong> ${getTiempoColegio(printData.tiempo_colegio)}</div>
+              </div>
+            </div>
+          `
             
             // Preguntas generales
             html += generarPregunta(1, '¿Con qué frecuencia has sido acosado en la escuela?', printData.pregunta_1)
