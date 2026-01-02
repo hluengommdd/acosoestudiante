@@ -30,6 +30,12 @@ Si aparece un `404` en la consola:
 - Copia la URL exacta que falla (desde la pestaña Network) y pégala aquí.
 - Indica si estás sirviendo la app en un subpath (por ejemplo `https://usuario.vercel.app/proyecto/`). Si es así, lo ajustaré.
 
+## Paquete de impresión (descarga)
+
+- Archivo listo en el deploy: [public/print-assets.zip](public/print-assets.zip) → accesible como `/print-assets.zip` (ej. `http://localhost:5173/print-assets.zip` o en Vercel `https://<tu-app>/print-assets.zip`).
+- Descarga directa desde GitHub (raw): https://raw.githubusercontent.com/hluengommdd/acosoestudiante/main/public/print-assets.zip
+- El paquete incluye `print.html`, estilos/JS de impresión, logo y el README del paquete.
+
 ## Despliegue en Vercel
 
 1. Conecta tu repo a Vercel (import project). La configuración por defecto con Vite funciona.
