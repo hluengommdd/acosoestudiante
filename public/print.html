@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Vista de impresión - OBVQ-R</title>
     <link rel="icon" type="image/png" href="/logo-oficial.png">
-    <link rel="stylesheet" href="print-styles/css/print.css" />
+    <!-- Versión cache-busted para asegurar últimos estilos en Vercel -->
+    <link rel="stylesheet" href="/print-styles/css/print.css?v=3" />
     <style>
       /* Controles de vista (no se muestran en impresión) */
       #printControls{position:fixed;right:18px;top:18px;z-index:9999;display:flex;gap:8px}
@@ -14,7 +15,7 @@
     </style>
   </head>
   <body>
-    <div id="printContent" class="print-document">
+    <div id="printContent" class="print-document print-shell">
       <p>Cargando documento...</p>
     </div>
 
