@@ -223,10 +223,17 @@
         }
 
         ;(async () => {
-          if (!printData.curso) {
-            document.getElementById('printContent').innerHTML = '<p>No hay datos para imprimir.</p>'
-            return
+          // Si no hay datos en sessionStorage, usar datos de ejemplo
+          const hasData = Object.keys(printData || {}).length > 0
+          const example = {
+            curso: 'Ej: 6° A',
+            edad: '10',
+            sexo: ['Masculino'],
+            tiempo_colegio: '1_2_anios',
+            pregunta_1: '1',
+            espacio_historia: 'Texto de ejemplo para previsualizar cómo quedará el PDF. Puedes cambiar esto en el formulario.'
           }
+          const data = hasData ? printData : example
 
           const fechaEmision = new Date().toLocaleDateString('es-CL', {
             year: 'numeric',
@@ -238,14 +245,14 @@
             minute: '2-digit'
           })
 
-            const logoSrc = printData.logoDataUrl || await fetchLogoDataUrl()
+            const logoSrc = (data && data.logoDataUrl) || printData.logoDataUrl || await fetchLogoDataUrl()
 
-          let html = `
+            let html = `
             <header class="print-header">
               <div class="header-left">
                 <h1>CUESTIONARIO DE EXPERIENCIAS EN LA ESCUELA OBVQ-R</h1>
                 <div class="sub">Colegio Carmera Romero de Espinoza - MMDD Concepción</div>
-                <div class="meta">Fecha de aplicación: ${fechaEmision} | Hora: ${horaEmision}</div>
+                  <div class="meta">Fecha de aplicación: ${fechaEmision} | Hora: ${horaEmision}</div>
               </div>
               <div class="header-right">
                 <img src="${logoSrc}" alt="Logo" />
@@ -255,10 +262,10 @@
             <div class="info-section">
               <h3>Información General del Estudiante</h3>
               <div class="info-grid">
-                <div><strong>Curso:</strong> ${printData.curso || 'No especificado'}</div>
-                <div><strong>Edad:</strong> ${printData.edad || 'No especificada'} años</div>
-                <div><strong>Sexo:</strong> ${Array.isArray(printData.sexo) && printData.sexo.length > 0 ? printData.sexo.join(', ') : 'No especificado'}</div>
-                <div><strong>Tiempo en el colegio:</strong> ${getTiempoColegio(printData.tiempo_colegio)}</div>
+                  <div><strong>Curso:</strong> ${data.curso || 'No especificado'}</div>
+                  <div><strong>Edad:</strong> ${data.edad || 'No especificada'} años</div>
+                  <div><strong>Sexo:</strong> ${Array.isArray(data.sexo) && data.sexo.length > 0 ? data.sexo.join(', ') : 'No especificado'}</div>
+                  <div><strong>Tiempo en el colegio:</strong> ${getTiempoColegio(data.tiempo_colegio)}</div>
               </div>
             </div>
           `
