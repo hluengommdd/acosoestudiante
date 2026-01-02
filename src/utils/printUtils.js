@@ -143,7 +143,8 @@ export async function abrirVistaImpresion(respuestas) {
   // Intentar convertir el logo a dataURL y añadirlo a los datos
   const data = { ...respuestas }
   try {
-    const logoUrl = window.location.origin + '/logo-oficial.png'
+    // Respetar base href (subpaths, previews) usando document.baseURI
+    const logoUrl = new URL('logo-oficial.png', document.baseURI).href
     const logoData = await toDataUrl(logoUrl)
     if (logoData) data.logoDataUrl = logoData
   } catch (e) {

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
       try {
-        // En Vercel (y Vite public/) el logo se sirve como /logo-oficial.png
-        const logoUrl = window.location.origin + '/logo-oficial.png'
+                // Calcular URL del logo respetando base href (subpaths / previews)
+                const logoUrl = new URL('logo-oficial.png', document.baseURI).href
 
-        const resp = await fetch(logoUrl, { cache: 'no-store' })
+                const resp = await fetch(logoUrl, { cache: 'no-store' })
       /* Aumentar margen inferior para evitar recortes en vista de impresión */
       @page { margin: 25mm 18mm 35mm 18mm; }
       body {
