@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { abrirVistaImpresion } from './utils/printUtils'
+import logo from '../logo-oficial.png'
 
 function App() {
   const [formData, setFormData] = useState({
@@ -108,7 +109,7 @@ function App() {
   return (
     <div className="container">
       <div className="logo-section">
-        <img src="logo-oficial.png" alt="Logo institucional" className="form-logo" />
+        <img src={logo} alt="Logo institucional" className="form-logo" />
         <div className="logo-text">
           <h1>CUESTIONARIO DE EXPERIENCIAS EN LA ESCUELA OBVQ-R</h1>
           <p>Para Estudiantes de Educación Primaria</p>

@@ -238,7 +238,7 @@
             minute: '2-digit'
           })
 
-          const logoSrc = await fetchLogoDataUrl()
+            const logoSrc = printData.logoDataUrl || await fetchLogoDataUrl()
 
           let html = `
             <header class="print-header">

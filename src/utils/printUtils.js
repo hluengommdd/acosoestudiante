@@ -123,11 +123,38 @@ function generarEventosTimeline(respuestas, fechaBase) {
   return eventos.join('\n');
 }
 
-export function abrirVistaImpresion(respuestas) {
+import logoUrl from '../../logo-oficial.png'
+
+async function toDataUrl(url) {
+  try {
+    const resp = await fetch(url, { cache: 'no-store' })
+    if (!resp.ok) throw new Error('Fetch failed')
+    const blob = await resp.blob()
+    return await new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = reject
+      reader.readAsDataURL(blob)
+    })
+  } catch (err) {
+    return null
+  }
+}
+
+export async function abrirVistaImpresion(respuestas) {
+  // Intentar convertir el logo a dataURL y añadirlo a los datos
+  const data = { ...respuestas }
+  try {
+    const logoData = await toDataUrl(logoUrl)
+    if (logoData) data.logoDataUrl = logoData
+  } catch (e) {
+    // Ignorar, print.html tiene sus propios fallbacks
+  }
+
   // Guardar datos en sessionStorage para que pueda acceder la página de impresión
-  sessionStorage.setItem('printData', JSON.stringify(respuestas))
-  
+  sessionStorage.setItem('printData', JSON.stringify(data))
+
   // Abrir página de impresión
   const printWindow = window.open('/print.html', 'printWindow', 'width=900,height=1200')
-  printWindow.focus()
+  if (printWindow) printWindow.focus()
 }
