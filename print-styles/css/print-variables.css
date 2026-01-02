@@ -1,0 +1,52 @@
+/* ============================================
+   VARIABLES DE IMPRESIÓN - Personalización
+   ============================================ */
+
+:root {
+  /* Colores institucionales */
+  --print-primary-color: #2c3e50;
+  --print-secondary-color: #34495e;
+  --print-accent-color: #3498db;
+  --print-text-color: #000;
+  --print-border-color: #ddd;
+  --print-bg-color: #fff;
+  
+  /* Tipografía */
+  --print-font-family: 'Arial', 'Helvetica', sans-serif;
+  --print-font-size-base: 11pt;
+  --print-font-size-small: 9pt;
+  --print-font-size-heading: 14pt;
+  --print-font-size-title: 16pt;
+  --print-line-height: 1.4;
+  
+  /* Márgenes de página */
+  --print-margin-top: 1.5cm;
+  --print-margin-right: 1.5cm;
+  --print-margin-bottom: 1.5cm;
+  --print-margin-left: 1.5cm;
+  
+  /* Espaciado interno */
+  --print-spacing-xs: 0.25cm;
+  --print-spacing-sm: 0.5cm;
+  --print-spacing-md: 1cm;
+  --print-spacing-lg: 1.5cm;
+  
+  /* Dimensiones */
+  --print-logo-height: 2cm;
+  --print-header-height: 3cm;
+  --print-footer-height: 1.5cm;
+  --print-border-width: 1px;
+  
+  /* Tablas */
+  --print-table-border-color: #333;
+  --print-table-header-bg: #f5f5f5;
+  --print-table-stripe-bg: #fafafa;
+}
+
+/* Variables específicas para modo oscuro (opcional) */
+@media print and (prefers-color-scheme: dark) {
+  :root {
+    --print-bg-color: #fff;
+    --print-text-color: #000;
+  }
+}

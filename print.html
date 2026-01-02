@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Cuestionario OBVQ-R - Impresión</title>
+    <link rel="stylesheet" href="/print-styles/css/print-variables.css">
+    <link rel="stylesheet" href="/print-styles/css/print.css">
+    <style>
+      /* Aumentar margen inferior para evitar recortes en vista de impresión */
+      @page { margin: 25mm 18mm 35mm 18mm; }
+      body {
+        font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        font-size: 11pt;
+        line-height: 1.4;
+        color: #2c3e50;
+      }
+      .print-container { max-width: 800px; margin: 0 auto; background: white; overflow: visible; padding-bottom: 18mm; }
+
+      /* Controles para revisar antes de imprimir */
+      #printControls {
+        position: fixed;
+        right: 18px;
+        top: 18px;
+        z-index: 9999;
+        display: flex;
+        gap: 8px;
+      }
+      #printControls button {
+        padding: 8px 10px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        background: white;
+        cursor: pointer;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      }
+      @media print {
+        #printControls { display: none !important; }
+      }
+      .print-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 2px solid #2c3e50;
+        padding-bottom: 12px;
+        margin-bottom: 20px;
+      }
+      .header-left { flex: 1; }
+      .header-left h1 {
+        margin: 0 0 6px 0;
+        font-size: 14pt;
+        font-weight: 600;
+        color: #2c3e50;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .header-left .sub {
+        font-size: 10pt;
+        color: #555;
+        margin: 3px 0;
+        font-weight: 500;
+      }
+      .header-left .meta {
+        font-size: 9pt;
+        color: #777;
+        margin-top: 4px;
+      }
+      .header-right {
+        display: flex;
+        align-items: center;
+        padding-left: 15px;
+      }
+      .header-right img {
+        max-width: 60px;
+        height: auto;
+        opacity: 0.9;
+      }
+      .info-section {
+        background: #f5f7fa;
+        padding: 12px 15px;
+        border-radius: 4px;
+        margin-bottom: 18px;
+        border-left: 3px solid #3498db;
+      }
+      .info-section h3 {
+        margin: 0 0 10px 0;
+        font-size: 12pt;
+        color: #2c3e50;
+        font-weight: 600;
+      }
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px 15px;
+        font-size: 10pt;
+      }
+      .info-grid div { padding: 2px 0; }
+      .info-grid strong {
+        color: #2c3e50;
+        font-weight: 600;
+      }
+      .section {
+        margin-bottom: 20px;
+        page-break-inside: auto;
+        break-inside: auto;
+      }
+      .section h3 {
+        font-size: 11pt;
+        color: #2c3e50;
+        background: #ecf0f1;
+        padding: 6px 10px;
+        margin: 0 0 10px 0;
+        font-weight: 600;
+        border-left: 4px solid #3498db;
+      }
+      .pregunta-item {
+        margin-bottom: 10px;
+        padding: 8px 10px;
+        background: #fafbfc;
+        border-left: 2px solid #bdc3c7;
+        /* permitir que las preguntas se dividan entre páginas si es necesario */
+        page-break-inside: auto;
+        break-inside: auto;
+      }
+      .pregunta-texto {
+        font-weight: 500;
+        color: #2c3e50;
+        margin-bottom: 3px;
+        font-size: 10pt;
+      }
+      .respuesta-valor {
+        color: #555;
+        font-size: 10pt;
+        padding-left: 8px;
+        font-weight: 500;
+      }
+      .lista-items {
+        list-style: disc;
+        padding-left: 22px;
+        font-size: 10pt;
+        margin: 8px 0;
+      }
+      .lista-items li {
+        margin-bottom: 4px;
+        line-height: 1.5;
+      }
+      .text-response {
+        padding: 12px;
+        background: #f8f9fa;
+        border-radius: 3px;
+        font-size: 10pt;
+        color: #555;
+        margin-top: 8px;
+        border: 1px solid #e9ecef;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        line-height: 1.5;
+        min-height: 160px;
+        max-height: none;
+        overflow: visible;
+        page-break-inside: auto;
+        break-inside: auto;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .print-footer {
+        text-align: center;
+        font-size: 8pt;
+        color: #95a5a6;
+        margin-top: 25px;
+        padding-top: 12px;
+        border-top: 1px solid #ddd;
+        line-height: 1.6;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      @media print {
+        body { margin: 0; padding: 0; font-size: 10pt; }
+        .print-container { max-width: 100%; padding-bottom: 18mm; }
+        .text-response { font-size: 9pt; line-height: 1.45; }
+        .print-footer { margin-top: 12mm; }
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          filter: grayscale(100%) !important;
+          -webkit-filter: grayscale(100%) !important;
+        }
+      }
+    </style>
+</head>
+<body>
+    <div class="print-container" id="printContent">
+        <p>Cargando documento...</p>
+    </div>
+    
+    <script>
+        // Obtener datos de sessionStorage
+        const printData = JSON.parse(sessionStorage.getItem('printData') || '{}')
+        
+        if (!printData.curso) {
+            document.getElementById('printContent').innerHTML = '<p>No hay datos para imprimir.</p>'
+        } else {
+            // Generar contenido HTML
+            const fechaEmision = new Date().toLocaleDateString('es-CL', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            })
+            const horaEmision = new Date().toLocaleTimeString('es-CL', {
+                hour: '2-digit',
+                minute: '2-digit'
+            })
+            
+            let html = `
+                <header class="print-header">
+                    <div class="header-left">
+                        <h1>CUESTIONARIO DE EXPERIENCIAS EN LA ESCUELA OBVQ-R</h1>
+                        <div class="sub">Colegio Carmera Romero de Espinoza - MMDD Concepción</div>
+                        <div class="meta">Fecha de aplicación: ${fechaEmision} | Hora: ${horaEmision}</div>
+                    </div>
+                    <div class="header-right">
+                        <img src="/logo-oficial.png" alt="Logo" />
+                    </div>
+                </header>
+
+                <div class="info-section">
+                    <h3>Información General del Estudiante</h3>
+                    <div class="info-grid">
+                        <div><strong>Curso:</strong> ${printData.curso || 'No especificado'}</div>
+                        <div><strong>Edad:</strong> ${printData.edad || 'No especificada'} años</div>
+                        <div><strong>Sexo:</strong> ${Array.isArray(printData.sexo) && printData.sexo.length > 0 ? printData.sexo.join(', ') : 'No especificado'}</div>
+                        <div><strong>Tiempo en el colegio:</strong> ${getTiempoColegio(printData.tiempo_colegio)}</div>
+                    </div>
+                </div>
+            `
+            
+            // Preguntas generales
+            html += generarPregunta(1, '¿Con qué frecuencia has sido acosado en la escuela?', printData.pregunta_1)
+            
+            // Secciones
+            html += generarSeccion('SECCIÓN A: INSULTOS Y BURLAS', [
+                { num: 2, text: 'Me han llamado con nombres feos, me han burlado de mí o me han bromeado de forma hiriente' },
+                { num: 3, text: 'Me han dicho que soy poco atractivo, que soy feo o que mi cuerpo no es bonito' },
+                { num: 4, text: 'Me han insultado por mi raza, color de piel o donde vengo' },
+                { num: 5, text: 'Me han insultado por mis creencias religiosas' },
+                { num: 6, text: 'Me han hecho comentarios desagradables sobre mis gustos o mis características' },
+                { num: 7, text: 'Me han hecho bromas sobre mi forma de hablar, mi acento o porque soy de otro país' }
+            ], printData)
+            
+            html += generarSeccion('SECCIÓN B: EXCLUSIÓN Y RECHAZO SOCIAL', [
+                { num: 8, text: 'Me han dejado fuera de sus juegos o actividades a propósito' },
+                { num: 9, text: 'Me han dicho que no puedo jugar con ellos' },
+                { num: 10, text: 'Me han ignorado completamente o no me hablan' },
+                { num: 11, text: 'Me han prohibido a otros que jueguen conmigo o sean mis amigos' },
+                { num: 12, text: 'Otros estudiantes desaparecen o se van cuando llego' },
+                { num: 13, text: 'Me han hablado mal con otros estudiantes para que no quieran estar conmigo' },
+                { num: 14, text: 'Me han excluido de chats de WhatsApp, juegos online o redes sociales' }
+            ], printData)
+            
+            html += generarSeccion('SECCIÓN C: AGRESIÓN FÍSICA', [
+                { num: 15, text: 'Me han golpeado, pateado o empujado' },
+                { num: 16, text: 'Me han jalado del pelo o arañado' },
+                { num: 17, text: 'Me han encerrado en algún lugar' },
+                { num: 18, text: 'Me han aventado cosas (pelotas, piedras, cuadernos, etc.)' }
+            ], printData)
+            
+            html += generarSeccion('SECCIÓN D: DAÑO A PERTENENCIAS', [
+                { num: 19, text: 'Me han robado dinero u otras cosas' },
+                { num: 20, text: 'Me han roto o dañado a propósito mis cosas (mochilas, útiles, ropa, etc.)' },
+                { num: 21, text: 'Me han sacado mis cosas sin permiso o las han dañado' }
+            ], printData)
+            
+            html += generarSeccion('SECCIÓN E: AMENAZAS E INTIMIDACIÓN', [
+                { num: 22, text: 'Me han amenazado o intimidado' },
+                { num: 23, text: 'Me han obligado a hacer cosas que no quería hacer' },
+                { num: 24, text: 'Me han dicho que van a contarles a otros algo malo de mí' }
+            ], printData)
+            
+            html += generarSeccion('SECCIÓN F: ACOSO POR MEDIOS DIGITALES', [
+                { num: 25, text: 'Me han molestado usando celulares (mensajes, fotos, videos)' },
+                { num: 26, text: 'Me han molestado usando internet o redes sociales (Facebook, WhatsApp, TikTok, etc.)' },
+                { num: 27, text: 'Me han enviado mensajes o comentarios desagradables' }
+            ], printData)
+            
+            html += generarSeccion('SECCIÓN G: OTROS TIPOS DE ACOSO', [
+                { num: 28, text: 'Me han tocado de forma desagradable o inapropiada' },
+                { num: 29, text: 'Me han hecho comentarios de naturaleza sexual que me incomodan' },
+                { num: 30, text: 'Me han molestado, excluido o acosado por tener autismo, TDAH, dislexia u otra diferencia en cómo aprendo o me comporto' },
+                { num: 31, text: 'Me han molestado o excluido por venir de otro país, mi acento, o porque soy extranjero/a' },
+                { num: 32, text: 'Me han acosado por mi identidad de género, orientación sexual u otra característica personal' }
+            ], printData)
+            
+            // Información adicional
+            html += `<div class="section"><h3>INFORMACIÓN ADICIONAL</h3>`
+            if (printData.inicio_acoso) {
+                html += `<p><strong>¿Cuándo comenzó el acoso?</strong> ${printData.inicio_acoso}</p>`
+            }
+            if (printData.grupo_cantidad) {
+                html += `<p><strong>Cantidad de molestadores:</strong> ${printData.grupo_cantidad} estudiantes</p>`
+            }
+            if (printData.grupo_nombres && printData.grupo_nombres.trim()) {
+                html += `<p><strong>Nombres:</strong></p><div class="text-response">${printData.grupo_nombres}</div>`
+            }
+            html += `</div>`
+            
+            // Sentimientos
+            if (Array.isArray(printData.sentimientos) && printData.sentimientos.length > 0) {
+                html += `<div class="section"><h3>CÓMO SE SIENTE</h3><ul class="lista-items">`
+                printData.sentimientos.forEach(s => html += `<li>${s}</li>`)
+                html += `</ul></div>`
+            }
+            
+            // Espacio para contar historia
+            if (printData.espacio_historia && printData.espacio_historia.trim()) {
+                html += `
+                    <div class="section">
+                        <h3>ESPACIO PARA CONTAR SU HISTORIA</h3>
+                        <div class="text-response">${printData.espacio_historia}</div>
+                    </div>
+                `
+            }
+            
+            html += `
+                <footer class="print-footer">
+                    Documento confidencial - Para uso interno del Equipo de Convivencia Escolar<br>
+                    Generado automáticamente el ${fechaEmision} a las ${horaEmision}
+                </footer>
+            `
+            
+            document.getElementById('printContent').innerHTML = html
+
+            // Añadir controles para revisar antes de generar PDF
+            const controls = document.createElement('div')
+            controls.id = 'printControls'
+            controls.innerHTML = `
+              <button id="doPrint">Guardar PDF</button>
+              <button id="doPrintDialog">Imprimir</button>
+              <button id="closeWindow">Cerrar</button>
+            `
+            document.body.appendChild(controls)
+
+            document.getElementById('doPrint').addEventListener('click', async () => {
+              const element = document.getElementById('printContent')
+              const fecha = new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')
+              const opt = {
+                margin:       [10, 10, 15, 10],
+                filename:     `OBVQ-${fecha}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+              }
+              // Generar y forzar descarga del PDF
+              try {
+                // html2pdf está cargado desde CDN (ver script al final)
+                await html2pdf().set(opt).from(element).save()
+              } catch (err) {
+                console.error('Error generando PDF:', err)
+                // Fallback: abrir diálogo de impresión
+                requestAnimationFrame(() => window.print())
+              }
+            })
+            // Botón para abrir diálogo de impresión tradicional
+            document.getElementById('doPrintDialog').addEventListener('click', () => {
+              // esperar un frame y abrir diálogo de impresión
+              requestAnimationFrame(() => window.print())
+            })
+            document.getElementById('closeWindow').addEventListener('click', () => window.close())
+        }
+        
+        function getTiempoColegio(valor) {
+            const map = {
+                'menos_1_anio': 'Menos de 1 año',
+                '1_2_anios': 'Entre 1 y 2 años',
+                'mas_2_anios': 'Más de 2 años'
+            }
+            return map[valor] || 'No especificado'
+        }
+        
+        function valorAFrecuencia(valor) {
+            const valores = {
+                '0': 'Nunca',
+                '1': 'Una o dos veces',
+                '2': 'Varias veces al mes',
+                '3': 'Una o más veces a la semana',
+                '4': 'Varias veces a la semana'
+            }
+            return valores[valor] || 'No respondido'
+        }
+        
+        function generarPregunta(num, text, respuesta) {
+            return `
+                <div class="section">
+                    <h3>PREGUNTA GENERAL</h3>
+                    <div class="pregunta-item">
+                        <div class="pregunta-texto">${num}. ${text}</div>
+                        <div class="respuesta-valor">→ ${valorAFrecuencia(respuesta)}</div>
+                    </div>
+                </div>
+            `
+        }
+        
+        function generarSeccion(titulo, preguntas, datos) {
+            let html = `<div class="section"><h3>${titulo}</h3>`
+            preguntas.forEach(p => {
+                const respuesta = datos[`pregunta_${p.num}`]
+                html += `
+                    <div class="pregunta-item">
+                        <div class="pregunta-texto">${p.num}. ${p.text}</div>
+                        <div class="respuesta-valor">→ ${valorAFrecuencia(respuesta)}</div>
+                    </div>
+                `
+            })
+            html += `</div>`
+            return html
+        }
+    </script>
+    <!-- html2pdf: generar PDF en el cliente y forzar descarga -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+</body>
+</html>

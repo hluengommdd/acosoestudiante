@@ -1,0 +1,42 @@
+# Node
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Vite cache
+.vite/
+
+# Local env files
+.env
+.env.local
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage
+coverage/
+
+# Misc
+.cache/
+
+# Ignore IDE specific
+*.log
+
+# Keep package-lock.json in repo for reproducible installs
+# Ignore node_modules but not lockfile
