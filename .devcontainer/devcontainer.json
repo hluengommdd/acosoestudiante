@@ -1,0 +1,16 @@
+{
+  "name": "AcosoEstudiante Codespace",
+  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "ms-vscode.vscode-js-profile-table"
+      ]
+    }
+  },
+  "forwardPorts": [5173],
+  "postCreateCommand": "npm install",
+  "remoteUser": "vscode"
+}
