@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Cuestionario OBVQ-R - Impresión</title>
-    <link rel="stylesheet" href="/print-styles/css/print-variables.css">
-    <link rel="stylesheet" href="/print-styles/css/print.css">
-    <style>
+      try {
+        // En Vercel (y Vite public/) el logo se sirve como /logo-oficial.png
+        const logoUrl = window.location.origin + '/logo-oficial.png'
+
+        const resp = await fetch(logoUrl, { cache: 'no-store' })
       /* Aumentar margen inferior para evitar recortes en vista de impresión */
       @page { margin: 25mm 18mm 35mm 18mm; }
       body {

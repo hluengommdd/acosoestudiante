@@ -123,8 +123,6 @@ function generarEventosTimeline(respuestas, fechaBase) {
   return eventos.join('\n');
 }
 
-import logoUrl from '../../logo-oficial.png'
-
 async function toDataUrl(url) {
   try {
     const resp = await fetch(url, { cache: 'no-store' })
@@ -145,6 +143,7 @@ export async function abrirVistaImpresion(respuestas) {
   // Intentar convertir el logo a dataURL y añadirlo a los datos
   const data = { ...respuestas }
   try {
+    const logoUrl = window.location.origin + '/logo-oficial.png'
     const logoData = await toDataUrl(logoUrl)
     if (logoData) data.logoDataUrl = logoData
   } catch (e) {
