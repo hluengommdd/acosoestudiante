@@ -108,7 +108,7 @@ function App() {
   return (
     <div className="container">
       <div className="logo-section">
-        <img src="/logo-oficial.png" alt="Logo institucional" className="form-logo" />
+        <img src="logo-oficial.png" alt="Logo institucional" className="form-logo" />
         <div className="logo-text">
           <h1>CUESTIONARIO DE EXPERIENCIAS EN LA ESCUELA OBVQ-R</h1>
           <p>Para Estudiantes de Educación Primaria</p>
